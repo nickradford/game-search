@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 
-import { searchForGame } from "./util/rawg";
+import { searchForGame, findGameByTitle } from "./util/rawg";
 import { rdr } from "./rdr";
 
 const formatSearchQuery = (title = "", query = "") => {
@@ -26,8 +26,9 @@ function App() {
   let [title, setTitle] = useState();
   let [query, setQuery] = useState();
   let [debug, setDebug] = useState();
+  let [selectedGame, setSelectedGame] = useState();
   let [applicationState, setApplicationState] = useState(
-    APPLICATION_STATE.START
+    APPLICATION_STATE.LISTING
   );
 
   let [possibleMatches, setPossibleMatches] = useState(rdr);
@@ -38,14 +39,21 @@ function App() {
     case APPLICATION_STATE.START:
       content = (
         <form
-          className="flex flex-col items-center"
+          className="flex-1 sm:flex-initial mt-8 flex flex-col items-center px-4"
           onSubmit={async (e) => {
             console.log(e.target.game.value);
             e.preventDefault();
-            let matches = await searchForGame(e.target.game.value);
+            e.persist();
 
-            if (matches.length) {
-              setPossibleMatches(matches);
+            let [exactMatch, allMatches] = await searchForGame(
+              e.target.game.value
+            );
+
+            setPossibleMatches(allMatches);
+            if (exactMatch) {
+              setSelectedGame(exactMatch);
+              setApplicationState(APPLICATION_STATE.SEARCHING);
+            } else {
               setApplicationState(APPLICATION_STATE.LISTING);
             }
           }}
@@ -55,13 +63,13 @@ function App() {
           </label>
           <input
             id="game-title"
-            className="text-black rounded w-1/3 mt-4 px-4 py-2"
+            className="text-black rounded w-full sm:w-1/3 mt-4 px-4 py-2"
             placeholder="Cyberpunk 2077"
             name="game"
             autoFocus
           />
           <button
-            className="rounded w-1/6 mt-6 py-1 border hover:bg-white hover:text-indigo-900"
+            className="rounded w-full sm:w-1/6 mt-6 py-1 border hover:bg-white hover:text-indigo-900"
             type="submit"
           >
             Next
@@ -72,14 +80,18 @@ function App() {
       break;
     case APPLICATION_STATE.LISTING:
       content = (
-        <div className="flex flex-col items-center overflow-auto">
+        <div className="mt-8 flex flex-col items-center">
           <p className="text-2xl mb-4">Which one of these?</p>
-          <div className="flex items-center justify-center flex-wrap">
+          <div className="flex flex-col w-full px-4 sm:flex-row items-center justify-center flex-wrap">
             {possibleMatches.map((match) => (
               <div
                 key={match.id}
-                className="w-64 h-48 mr-2 mb-4 relative bg-black bg-cover bg-center cursor-pointer"
+                className="w-full md:w-64 h-48 mr-2 mb-4 relative bg-black bg-cover bg-center cursor-pointer"
                 style={{ backgroundImage: `url(${match.background_image})` }}
+                onClick={() => {
+                  setSelectedGame(match);
+                  setApplicationState(APPLICATION_STATE.SEARCHING);
+                }}
               >
                 <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-black bg-opacity-50">
                   {match.name}
@@ -89,21 +101,31 @@ function App() {
           </div>
         </div>
       );
+      break;
 
     case APPLICATION_STATE.SEARCHING:
+      content = (
+        <div className="flex-1 mt-8">
+          <header>
+            <h1>{selectedGame.name}</h1>
+            <h2>{selectedGame.released}</h2>
+          </header>
+        </div>
+      );
       break;
     default:
       break;
   }
 
   return (
-    <div className="container mx-auto flex flex-col justify-between">
+    <div className="container mx-auto flex flex-col sm:justify-between">
       <header className="App-header">
         <h1 onClick={() => setApplicationState(APPLICATION_STATE.START)}>
           Game Search
         </h1>
       </header>
-      <main className="">{content}</main>
+
+      {content}
 
       <footer className="flex justify-between">
         <aside>
@@ -118,6 +140,7 @@ function App() {
               <p>
                 DuckDuckGo: {getDuckDuckGoUrl(formatSearchQuery(title, query))}
               </p>
+              <pre>{JSON.stringify(selectedGame, null, 4)}</pre>
             </div>
           )}
         </aside>

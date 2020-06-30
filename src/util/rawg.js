@@ -12,6 +12,19 @@ export const searchForGame = async (title) => {
   const res = await fetch(url, { headers: HEADERS });
   const data = await res.json();
 
-  console.log(data.results);
-  return data.results;
+  const exact = findGameByTitle(title, data.results);
+  return [exact, data.results];
+};
+
+export const findGameByTitle = (title, games) => {
+  const lowerTitle = title.toLowerCase();
+
+  console.log(games);
+  const matches = games.filter((g) => g.name.toLowerCase() == lowerTitle);
+
+  if (matches.length === 1) {
+    return matches[0];
+  } else {
+    return null;
+  }
 };
