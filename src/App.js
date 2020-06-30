@@ -28,7 +28,7 @@ function App() {
   let [debug, setDebug] = useState();
   let [selectedGame, setSelectedGame] = useState();
   let [applicationState, setApplicationState] = useState(
-    APPLICATION_STATE.LISTING
+    APPLICATION_STATE.START
   );
 
   let [possibleMatches, setPossibleMatches] = useState(rdr);
@@ -105,7 +105,7 @@ function App() {
 
     case APPLICATION_STATE.SEARCHING:
       content = (
-        <div className="flex-1 mt-8">
+        <div className="flex-1 mt-8 flex">
           <header>
             <h1>{selectedGame.name}</h1>
             <h2>{selectedGame.released}</h2>
