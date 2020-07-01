@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
 import classnames from "classnames";
 import { useDebounce } from "use-debounce";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { SET_SELECTED_GAME, ADD_BATCH_GAMES } from "../redux/actionTypes";
 
-export default function Search() {
+const mapStateToProps = () => ({});
+const mapDispatchToProps = (dispatch) => ({
+  selectGame: (game) => dispatch({ type: SET_SELECTED_GAME, payload: game }),
+  addGamesToKnownGames: (games) =>
+    dispatch({ type: ADD_BATCH_GAMES, payload: games }),
+});
+
+function Search({ selectGame, addGamesToKnownGames }) {
   const history = useHistory();
   const { name } = useParams();
 
@@ -26,14 +35,18 @@ export default function Search() {
         return;
       }
       console.log(`Searching for: ${searchTerm}`);
-      let [exact, allMatches] = await searchForGame(searchTerm);
+      let [exact, allMatches] = await searchForGame(
+        searchTerm,
+        "ordering=-rating&exclude_additions"
+      );
       setAllMatches(allMatches);
+      addGamesToKnownGames(allMatches);
 
       history.push(`/search/${formatSearchTerm(searchTerm)}`);
     };
 
     search(debouncedSearchTerm);
-  }, [debouncedSearchTerm, history]);
+  }, [addGamesToKnownGames, debouncedSearchTerm, history]);
 
   const cn = classnames("flex-1 mt-8 flex items-center flex-col", {
     "sm:flex-initial": allMatches.length === 0,
@@ -41,7 +54,11 @@ export default function Search() {
 
   return (
     <div className={cn}>
-      <form className="flex flex-col sm:w-1/3 text-center" autoComplete="off">
+      <form
+        className="flex flex-col sm:w-1/3 text-center"
+        autoComplete="off"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <label htmlFor="game-title" className="text-2xl">
           What are you playing?
         </label>
@@ -61,6 +78,9 @@ export default function Search() {
         {allMatches.map((match) => (
           <Link
             to={`/games/${match.slug}`}
+            onClick={() => {
+              selectGame(match);
+            }}
             key={match.id}
             className="w-full md:w-64 h-48 mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
             style={{ backgroundImage: `url(${match.background_image})` }}
@@ -74,3 +94,5 @@ export default function Search() {
     </div>
   );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

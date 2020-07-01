@@ -12,7 +12,7 @@ export const slugToString = (slug = "") => {
 };
 
 export const searchForGame = async (title, queryParams = "") => {
-  const url = `${BASE_URL}/games?search=${formatSearchTerm(title)}${
+  const url = `${BASE_URL}/games?search=${title}${
     queryParams && `&${queryParams}`
   }`;
 
@@ -26,8 +26,7 @@ export const searchForGame = async (title, queryParams = "") => {
 export const findGameByTitle = (title, games) => {
   const lowerTitle = title.toLowerCase();
 
-  console.log(games);
-  const matches = games.filter((g) => g.name.toLowerCase() == lowerTitle);
+  const matches = games.filter((g) => g.name.toLowerCase() === lowerTitle);
 
   if (matches.length === 1) {
     return matches[0];
