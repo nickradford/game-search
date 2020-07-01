@@ -3,12 +3,19 @@ const HEADERS = {
 };
 const BASE_URL = "https://api.rawg.io/api";
 
-const formatSearchTerm = (term) => {
+export const formatSearchTerm = (term) => {
   return term.trim().replace(/\s/gi, "+");
 };
 
-export const searchForGame = async (title) => {
-  const url = `${BASE_URL}/games?search=${formatSearchTerm(title)}`;
+export const slugToString = (slug = "") => {
+  return slug.trim().replace(/\+/g, " ");
+};
+
+export const searchForGame = async (title, queryParams = "") => {
+  const url = `${BASE_URL}/games?search=${formatSearchTerm(title)}${
+    queryParams && `&${queryParams}`
+  }`;
+
   const res = await fetch(url, { headers: HEADERS });
   const data = await res.json();
 

@@ -1,4 +1,8 @@
 import React, { useState, useCallback } from "react";
+import { Switch, Route, Link } from "react-router-dom";
+
+import Search from "./pages/search";
+import TargetedSearch from "./pages/targetedSearch";
 
 import { searchForGame, findGameByTitle } from "./util/rawg";
 import { rdr } from "./rdr";
@@ -120,12 +124,21 @@ function App() {
   return (
     <div className="container mx-auto flex flex-col sm:justify-between">
       <header className="App-header">
-        <h1 onClick={() => setApplicationState(APPLICATION_STATE.START)}>
-          Game Search
-        </h1>
+        <Link to="/">Game Search</Link>
       </header>
 
-      {content}
+      {/* {content} */}
+      <Switch>
+        <Route path="/games/:slug">
+          <TargetedSearch />
+        </Route>
+        <Route path="/search/:name" exact>
+          <Search />
+        </Route>
+        <Route path="/" exact>
+          <Search name={null} />
+        </Route>
+      </Switch>
 
       <footer className="flex justify-between">
         <aside>
