@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { useDebounce } from "use-debounce";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { connect } from "react-redux";
+import { SyncLoader } from "react-spinners";
 
 import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
 import { SET_SELECTED_GAME, ADD_BATCH_GAMES } from "../redux/actionTypes";
@@ -19,7 +20,8 @@ function Search({ selectGame, addGamesToKnownGames }) {
   const { name } = useParams();
 
   const [searchTerm, setSearchTerm] = useState(slugToString(name) || "");
-  const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
+  const [searching, setSearching] = useState(name !== "");
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 350);
   const [allMatches, setAllMatches] = useState([]);
 
   useEffect(() => {
@@ -32,17 +34,19 @@ function Search({ selectGame, addGamesToKnownGames }) {
   useEffect(() => {
     const search = async (searchTerm = "") => {
       if (searchTerm === "") {
+        setSearching(false);
+        setAllMatches([]);
         return;
       }
       console.log(`Searching for: ${searchTerm}`);
-      let [exact, allMatches] = await searchForGame(
-        searchTerm,
-        "exclude_additions"
-      );
+      let [, allMatches] = await searchForGame(searchTerm, "exclude_additions");
+      setSearching(true);
       setAllMatches(allMatches);
       addGamesToKnownGames(allMatches);
 
       history.push(`/search/${formatSearchTerm(searchTerm)}`);
+
+      setSearching(false);
     };
 
     search(debouncedSearchTerm);
@@ -69,12 +73,16 @@ function Search({ selectGame, addGamesToKnownGames }) {
           name="game"
           value={searchTerm}
           onChange={(e) => {
+            setSearching(true);
             setSearchTerm(e.target.value);
           }}
           autoFocus
         />
       </form>
-      <div className="flex mt-8 flex-wrap justify-center">
+      <div className="mt-6 h-6">
+        {searching && <SyncLoader color="#fff" size="12" />}
+      </div>
+      <div className="flex w-full px-8 mt-8 flex-wrap items-center justify-center">
         {allMatches.map((match) => (
           <Link
             to={`/games/${match.slug}`}
@@ -82,7 +90,7 @@ function Search({ selectGame, addGamesToKnownGames }) {
               selectGame(match);
             }}
             key={match.id}
-            className="w-full md:w-64 h-48 mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
+            className="w-64 h-48 sm:mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
             style={{ backgroundImage: `url(${match.background_image})` }}
           >
             <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-black bg-opacity-50">

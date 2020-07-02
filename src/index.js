@@ -5,9 +5,11 @@ import { Provider } from "react-redux";
 
 import "./tailwind.generated.css";
 import App from "./App";
-import { store } from "./redux/store";
+import { configureStore } from "./redux/store";
 
 import * as serviceWorker from "./serviceWorker";
+
+const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>

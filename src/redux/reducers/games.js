@@ -1,4 +1,8 @@
-import { SET_SELECTED_GAME, ADD_BATCH_GAMES } from "../actionTypes";
+import {
+  SET_SELECTED_GAME,
+  ADD_BATCH_GAMES,
+  ADD_SINGLE_GAME,
+} from "../actionTypes";
 
 const initialState = {
   selectedGameSlug: null,
@@ -16,6 +20,17 @@ export default function gamesReducer(state = initialState, action) {
         selectedGameSlug: slug,
       };
 
+    case ADD_SINGLE_GAME:
+      const game = action.payload;
+
+      return {
+        ...state,
+        byIds: {
+          ...state.byIds,
+          [game.slug]: game,
+        },
+      };
+
     case ADD_BATCH_GAMES:
       const games = action.payload;
       console.log(games);
@@ -23,8 +38,6 @@ export default function gamesReducer(state = initialState, action) {
         (prev, curr) => ({ ...prev, [curr.slug]: curr }),
         {}
       );
-
-      console.log(obj);
 
       return {
         ...state,

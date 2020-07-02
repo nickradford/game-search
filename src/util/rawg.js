@@ -11,6 +11,15 @@ export const slugToString = (slug = "") => {
   return slug.trim().replace(/\+/g, " ");
 };
 
+export const getGameBySlug = async (slug) => {
+  const url = `${BASE_URL}/games/${slug}`;
+
+  const res = await fetch(url, { headers: HEADERS });
+  const data = await res.json();
+
+  return data;
+};
+
 export const searchForGame = async (title, queryParams = "") => {
   const url = `${BASE_URL}/games?search=${title}${
     queryParams && `&${queryParams}`
