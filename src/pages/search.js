@@ -37,7 +37,7 @@ function Search({ selectGame, addGamesToKnownGames }) {
       console.log(`Searching for: ${searchTerm}`);
       let [exact, allMatches] = await searchForGame(
         searchTerm,
-        "ordering=-rating&exclude_additions"
+        "exclude_additions"
       );
       setAllMatches(allMatches);
       addGamesToKnownGames(allMatches);
@@ -59,7 +59,7 @@ function Search({ selectGame, addGamesToKnownGames }) {
         autoComplete="off"
         onSubmit={(e) => e.preventDefault()}
       >
-        <label htmlFor="game-title" className="text-2xl">
+        <label htmlFor="game-title" className="font-asap italic text-2xl">
           What are you playing?
         </label>
         <input

@@ -122,48 +122,69 @@ function App() {
   }
 
   return (
-    <div className="container mx-auto flex flex-col sm:justify-between">
-      <header className="App-header">
-        <Link to="/">Game Search</Link>
-      </header>
+    <div className="w-full h-full bg-gray-900 text-white">
+      <div
+        className="absolute top-0 left-0 right-0 h-64 bg-indigo-900 z-0"
+        style={{
+          height: "70%",
+          backgroundImage:
+            "url(https://media.rawg.io/media/games/26d/26d4437715bee60138dab4a7c8c59c92.jpg)",
+          backgroundSize: "100%",
+          backgroundPosition: "top",
+        }}
+      >
+        <div
+          className="top-0 left-0 right-0 h-full"
+          style={{
+            background:
+              "linear-gradient(0deg, rgba(26,32,44,1) 0%, rgba(26,32,44,0.5) 100%)",
+          }}
+        />
+      </div>
+      <div className="container h-full mx-auto flex flex-col sm:justify-between z-10 relative">
+        <header className="font-asap italic text-2xl">
+          <Link to="/">Game Search</Link>
+        </header>
 
-      {/* {content} */}
-      <Switch>
-        <Route path="/games/:slug">
-          <TargetedSearch />
-        </Route>
-        <Route path="/search/:name" exact>
-          <Search />
-        </Route>
-        <Route path="/" exact>
-          <Search name={null} />
-        </Route>
-      </Switch>
+        {/* {content} */}
+        <Switch>
+          <Route path="/games/:slug">
+            <TargetedSearch />
+          </Route>
+          <Route path="/search/:name" exact>
+            <Search />
+          </Route>
+          <Route path="/" exact>
+            <Search name={null} />
+          </Route>
+        </Switch>
 
-      <footer className="flex justify-between">
-        <aside>
-          <pre onClick={() => setDebug(!debug)}>debug</pre>
-          {debug && (
-            <div>
-              <p>Game: {title}</p>
-              <p>Query: {query}</p>
+        <footer className="flex justify-between">
+          <aside>
+            <pre onClick={() => setDebug(!debug)}>debug</pre>
+            {debug && (
+              <div>
+                <p>Game: {title}</p>
+                <p>Query: {query}</p>
 
-              <p>Search Query: {formatSearchQuery(title, query)}</p>
-              <p>Google: {getGoogleUrl(formatSearchQuery(title, query))}</p>
-              <p>
-                DuckDuckGo: {getDuckDuckGoUrl(formatSearchQuery(title, query))}
-              </p>
-              <pre>{JSON.stringify(selectedGame, null, 4)}</pre>
-            </div>
-          )}
-        </aside>
-        <main>
-          Game info from{" "}
-          <a href="https://rawg.io" target="_new">
-            rawg.io
-          </a>
-        </main>
-      </footer>
+                <p>Search Query: {formatSearchQuery(title, query)}</p>
+                <p>Google: {getGoogleUrl(formatSearchQuery(title, query))}</p>
+                <p>
+                  DuckDuckGo:{" "}
+                  {getDuckDuckGoUrl(formatSearchQuery(title, query))}
+                </p>
+                <pre>{JSON.stringify(selectedGame, null, 4)}</pre>
+              </div>
+            )}
+          </aside>
+          <main>
+            Game data provided by{" "}
+            <a href="https://rawg.io" target="_new">
+              rawg.io
+            </a>
+          </main>
+        </footer>
+      </div>
     </div>
   );
 }
