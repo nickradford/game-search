@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadGameData } from "../redux/actions";
+import { SET_SELECTED_GAME } from "../redux/actionTypes";
 
 const mapStateToProps = (state, { match: { params } }) => {
   const slug = params.slug;
@@ -16,18 +17,21 @@ const mapStateToProps = (state, { match: { params } }) => {
 };
 const mapDispatchToProps = (dispatch) => ({
   loadGame: (slug) => dispatch(loadGameData(slug)),
+  setSelectedGame: (slug) =>
+    dispatch({ type: SET_SELECTED_GAME, payload: { slug } }),
 });
 
-function GamePage({ slug, gameKnown, gameData, loadGame }) {
+function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
   const [loading, setLoading] = useState(!gameKnown);
 
-  if (!gameKnown) {
-    loadGame(slug);
-  }
-
   useEffect(() => {
-    setLoading(!gameKnown);
-  }, [gameKnown]);
+    if (!gameKnown) {
+      loadGame(slug);
+    } else {
+      setLoading(!gameKnown);
+      setSelectedGame(slug);
+    }
+  }, [gameKnown, loadGame, setSelectedGame, slug]);
 
   if (loading) {
     return null;

@@ -3,6 +3,8 @@ const HEADERS = {
 };
 const BASE_URL = "https://api.rawg.io/api";
 
+const inFlightSearches = [];
+
 export const formatSearchTerm = (term) => {
   return term.trim().replace(/\s/gi, "+");
 };
@@ -20,12 +22,25 @@ export const getGameBySlug = async (slug) => {
   return data;
 };
 
-export const searchForGame = async (title, queryParams = "") => {
+export const searchForGame = async (
+  title,
+  queryParams = "",
+  cancelPreviousSearches = false
+) => {
   const url = `${BASE_URL}/games?search=${title}${
     queryParams && `&${queryParams}`
   }`;
 
-  const res = await fetch(url, { headers: HEADERS });
+  if (cancelPreviousSearches) {
+    inFlightSearches.forEach((controller) => controller.abort());
+  }
+
+  const controller = new AbortController();
+  const { signal } = controller;
+
+  inFlightSearches.push(controller);
+
+  const res = await fetch(url, { headers: HEADERS, signal });
   const data = await res.json();
 
   const exact = findGameByTitle(title, data.results);

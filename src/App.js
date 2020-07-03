@@ -51,14 +51,10 @@ function App({ selectedGameImage }) {
     APPLICATION_STATE.START
   );
 
-  let [possibleMatches, setPossibleMatches] = useState(rdr);
-
-  let content;
-
   return (
     <div className="w-full h-full bg-gray-900 text-white">
       <div
-        className="absolute top-0 left-0 right-0 h-64 bg-indigo-900 z-0 bg-cover"
+        className="absolute top-0 left-0 right-0 h-64 bg-indigo-900 z-0 bg-cover overflow-hidden"
         style={{
           height: "70%",
           backgroundImage: `url(${selectedGameImage})`,
@@ -67,7 +63,7 @@ function App({ selectedGameImage }) {
         }}
       >
         <div
-          className="top-0 left-0 right-0 h-full"
+          className="absolute top-0 left-0 right-0 h-full z-10"
           style={{
             background:
               "linear-gradient(0deg, rgba(26,32,44,1) 0%, rgba(26,32,44,0.5) 100%)",

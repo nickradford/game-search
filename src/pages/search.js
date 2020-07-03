@@ -5,7 +5,12 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { SyncLoader } from "react-spinners";
 
-import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
+import {
+  searchForGame,
+  formatSearchTerm,
+  slugToString,
+  cancelFetchRequest,
+} from "../util/rawg";
 import { SET_SELECTED_GAME, ADD_BATCH_GAMES } from "../redux/actionTypes";
 
 const mapStateToProps = () => ({});
@@ -39,14 +44,24 @@ function Search({ selectGame, addGamesToKnownGames }) {
         return;
       }
       console.log(`Searching for: ${searchTerm}`);
-      let [, allMatches] = await searchForGame(searchTerm, "exclude_additions");
       setSearching(true);
-      setAllMatches(allMatches);
-      addGamesToKnownGames(allMatches);
 
-      history.push(`/search/${formatSearchTerm(searchTerm)}`);
+      try {
+        let [, allMatches] = await searchForGame(
+          searchTerm,
+          "exclude_additions",
+          true
+        );
+        setAllMatches(allMatches);
+        addGamesToKnownGames(allMatches);
 
-      setSearching(false);
+        history.push(`/search/${formatSearchTerm(searchTerm)}`);
+
+        setSearching(false);
+      } catch (e) {
+        // This is probably from a cancelled request
+        console.warn(e);
+      }
     };
 
     search(debouncedSearchTerm);
