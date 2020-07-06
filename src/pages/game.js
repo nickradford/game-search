@@ -39,7 +39,14 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
 
   return (
     <div className="flex-1">
-      {gameData.name} - {gameData.released}
+      <div className="flex">
+        <div className=" pr-4 sm:w-1/4 max-w-sm font-asap ">
+          <h1 className="font-bold text-xl">{gameData.name}</h1>
+          <p className="text-sm">Released {gameData.released}</p>
+          <p className="text-sm">Metacritic {gameData.metacritic}</p>
+        </div>
+        <div className="bg-black px-4">Search Area</div>
+      </div>
     </div>
   );
 }
