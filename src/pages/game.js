@@ -37,6 +37,14 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
     return null;
   }
 
+  const prevSearches = [
+    "Map",
+    "Cheat Codes",
+    "Walkthrough",
+    "Twitch Streams",
+    "Wiki",
+  ];
+
   return (
     <div className="flex-1">
       <div className="flex min-h-full">
@@ -54,9 +62,17 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
               autoFocus
             />
           </div>
-          <div className=" flex-1 overflow-auto">
-            <div>Map</div>
-            <div>All Horses</div>
+          <div className="flex-1 overflow-auto">
+            <h2>Previous Searches</h2>
+            <hr className="opacity-25 my-2" />
+            {prevSearches.map((value, index) => (
+              <div
+                className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer"
+                key={index}
+              >
+                {value}
+              </div>
+            ))}
           </div>
         </div>
       </div>
