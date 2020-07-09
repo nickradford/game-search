@@ -7,6 +7,7 @@ import GamePage from "./pages/game";
 
 import { searchForGame, findGameByTitle } from "./util/rawg";
 import { rdr } from "./rdr";
+import ImageTransition from "./components/image-transition";
 
 const formatSearchQuery = (title = "", query = "") => {
   const space = /\s/gi;
@@ -28,8 +29,7 @@ const APPLICATION_STATE = {
 };
 
 const mapStateToProps = ({ games }) => {
-  let selectedGameImage =
-    "https://media.rawg.io/media/games/26d/26d4437715bee60138dab4a7c8c59c92.jpg";
+  let selectedGameImage;
 
   let slug = games.selectedGameSlug;
 
@@ -54,16 +54,14 @@ function App({ selectedGameImage }) {
   return (
     <div className="w-full h-full bg-gray-900 text-white">
       <div
-        className="absolute top-0 left-0 right-0 h-64 bg-indigo-900 z-0 bg-cover overflow-hidden"
+        className="absolute top-0 left-0 right-0 bg-black h-64 z-0 overflow-hidden"
         style={{
           height: "70%",
-          backgroundImage: `url(${selectedGameImage})`,
-          backgroundPosition: "top",
-          backgroundRepeat: "no-repeat",
         }}
       >
+        <ImageTransition src={selectedGameImage} />
         <div
-          className="absolute top-0 left-0 right-0 h-full z-10"
+          className="absolute top-0 left-0 right-0 h-full z-20"
           style={{
             background:
               "linear-gradient(0deg, rgba(26,32,44,1) 0%, rgba(26,32,44,0.5) 100%)",
