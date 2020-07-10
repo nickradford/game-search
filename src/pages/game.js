@@ -47,11 +47,15 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
 
   return (
     <div className="flex-1">
-      <div className="flex min-h-full">
-        <div className=" pr-4 sm:w-1/4 max-w-sm font-asap ">
-          <h1 className="font-bold text-xl">{gameData.name}</h1>
-          <p className="text-sm">Released {gameData.released}</p>
-          <p className="text-sm">Metacritic {gameData.metacritic}</p>
+      <div className="flex min-h-full flex-col md:flex-row">
+        <div className="w-full md:pr-4 md:w-1/4 md:max-w-sm font-asap ">
+          <h1 className="font-bold text-xl text-center md:text-left">
+            {gameData.name}
+          </h1>
+          <div className="hidden md:block text-sm">
+            {gameData.released && <p>Released {gameData.released}</p>}
+            {gameData.metacritic && <p>Metacritic {gameData.metacritic}</p>}
+          </div>
         </div>
         <div className="px-4 flex-1 flex flex-col">
           <div className="">
