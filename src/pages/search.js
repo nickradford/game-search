@@ -67,7 +67,7 @@ function Search({ selectGame, addGamesToKnownGames }) {
     search(debouncedSearchTerm);
   }, [addGamesToKnownGames, debouncedSearchTerm, history]);
 
-  const cn = classnames("flex-1 mt-8 flex items-center flex-col", {
+  const cn = classnames("flex-1 mt-8 sm:flex items-center flex-col", {
     "sm:flex-initial": allMatches.length === 0,
   });
 
@@ -94,10 +94,10 @@ function Search({ selectGame, addGamesToKnownGames }) {
           autoFocus
         />
       </form>
-      <div className="mt-6 h-6">
+      <div className="mt-6 h-6 flex justify-center">
         {searching && <SyncLoader color="#fff" size="12" />}
       </div>
-      <div className="flex flex-col md:flex-row w-full px-8 mt-8 flex-wrap items-center justify-center">
+      <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
         {allMatches.map((match) => (
           <Link
             to={`/games/${match.slug}`}
@@ -105,8 +105,11 @@ function Search({ selectGame, addGamesToKnownGames }) {
               selectGame(match);
             }}
             key={match.id}
-            className="w-64 h-48 sm:mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
-            style={{ backgroundImage: `url(${match.background_image})` }}
+            className="flex w-64 h-auto m-auto sm:mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
+            style={{
+              backgroundImage: `url(${match.background_image})`,
+              minHeight: 192,
+            }}
           >
             <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-black bg-opacity-50">
               {match.name}
