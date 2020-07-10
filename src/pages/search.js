@@ -99,22 +99,24 @@ function Search({ selectGame, addGamesToKnownGames }) {
       </div>
       <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
         {allMatches.map((match) => (
-          <Link
-            to={`/games/${match.slug}`}
-            onClick={() => {
-              selectGame(match);
-            }}
-            key={match.id}
-            className="flex w-64 h-auto m-auto sm:mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
-            style={{
-              backgroundImage: `url(${match.background_image})`,
-              minHeight: 192,
-            }}
-          >
-            <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-black bg-opacity-50">
-              {match.name}
-            </span>
-          </Link>
+          <div key={match.id}>
+            <Link
+              to={`/games/${match.slug}`}
+              onClick={() => {
+                selectGame(match);
+              }}
+              key={match.id}
+              className="flex w-64 h-auto m-auto sm:mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
+              style={{
+                backgroundImage: `url(${match.background_image})`,
+                minHeight: 192,
+              }}
+            >
+              <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-black bg-opacity-50">
+                {match.name}
+              </span>
+            </Link>
+          </div>
         ))}
       </div>
     </div>

@@ -68,7 +68,7 @@ function App({ selectedGameImage }) {
           }}
         />
       </div>
-      <div className="container h-full mx-auto flex flex-col sm:justify-between z-10 relative px-4">
+      <div className="container min-h-full mx-auto flex flex-col sm:justify-between z-10 relative px-4">
         <header className="font-asap italic text-2xl text-center py-2 md:text-left">
           <Link to="/">Game Search</Link>
         </header>
