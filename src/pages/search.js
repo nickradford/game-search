@@ -74,7 +74,7 @@ function Search({ selectGame, addGamesToKnownGames }) {
   return (
     <div className={cn}>
       <form
-        className="flex flex-col w-full sm:w-1/2 md:w-1/3 text-center"
+        className="flex-col w-full sm:w-1/2 md:w-1/3 text-center"
         autoComplete="off"
         onSubmit={(e) => e.preventDefault()}
       >
