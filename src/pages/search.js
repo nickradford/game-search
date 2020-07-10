@@ -97,7 +97,7 @@ function Search({ selectGame, addGamesToKnownGames }) {
       <div className="mt-6 h-6">
         {searching && <SyncLoader color="#fff" size="12" />}
       </div>
-      <div className="flex w-full px-8 mt-8 flex-wrap items-center justify-center">
+      <div className="flex flex-col md:flex-row w-full px-8 mt-8 flex-wrap items-center justify-center">
         {allMatches.map((match) => (
           <Link
             to={`/games/${match.slug}`}
