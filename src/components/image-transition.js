@@ -41,7 +41,7 @@ export default function ImageTransition(props) {
   return (
     <div style={{ position: "relative", height: "100%" }}>
       {/* Overlay */}
-      <Transition in={loading}>
+      <Transition in={loading} timeout={0}>
         {(state) => (
           <div
             style={{
