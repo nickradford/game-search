@@ -43,9 +43,9 @@ function App({ selectedGameImage }) {
   return (
     <div className="w-full h-full bg-gray-900 text-white">
       <div
-        className="absolute top-0 left-0 right-0 bg-black h-64 z-0 overflow-hidden"
+        className="absolute top-0 left-0 right-0 h-64 z-0 overflow-hidden"
         style={{
-          height: "70%",
+          height: "100%",
         }}
       >
         <ImageTransition src={backgroundImage} />
@@ -53,7 +53,7 @@ function App({ selectedGameImage }) {
           className="absolute top-0 left-0 right-0 h-full z-20"
           style={{
             background:
-              "linear-gradient(0deg, rgba(26,32,44,1) 0%, rgba(26,32,44,0.5) 100%)",
+              "linear-gradient(0deg, rgba(26,32,44,1) 0%, rgba(26,32,44,1) 5%, rgba(26,32,44,0.5) 100%)",
           }}
         />
       </div>
