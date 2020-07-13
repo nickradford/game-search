@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 import { connect } from "react-redux";
+
+import debounce from "lodash.debounce";
 
 import SearchPage from "./pages/search";
 import GamePage from "./pages/game";
+import { getRandomTop10Image } from "./util/steam.top10";
 
 import ImageTransition from "./components/image-transition";
 
@@ -22,6 +25,21 @@ const mapStateToProps = ({ games }) => {
 };
 
 function App({ selectedGameImage }) {
+  const [backgroundImage, setBackgroundImage] = useState();
+
+  useEffect(() => {
+    setBackgroundImage(selectedGameImage);
+  }, [selectedGameImage]);
+
+  const route = useRouteMatch();
+
+  useEffect(() => {
+    if (route.path === "/" && route.isExact) {
+      setBackgroundImage(getRandomTop10Image());
+      console.log("setting");
+    }
+  }, [route.isExact, route.path]);
+
   return (
     <div className="w-full h-full bg-gray-900 text-white">
       <div
@@ -30,7 +48,7 @@ function App({ selectedGameImage }) {
           height: "70%",
         }}
       >
-        <ImageTransition src={selectedGameImage} />
+        <ImageTransition src={backgroundImage} />
         <div
           className="absolute top-0 left-0 right-0 h-full z-20"
           style={{
@@ -41,10 +59,14 @@ function App({ selectedGameImage }) {
       </div>
       <div className="container min-h-full mx-auto flex flex-col sm:justify-between z-10 relative px-4">
         <header className="font-asap italic text-2xl text-center py-2 md:text-left">
-          <Link to="/">Game Search</Link>
+          <Link
+            to="/"
+            onClick={() => setBackgroundImage(getRandomTop10Image())}
+          >
+            Game Search
+          </Link>
         </header>
 
-        {/* {content} */}
         <Switch>
           <Route path="/games/:slug">
             <GamePage />
