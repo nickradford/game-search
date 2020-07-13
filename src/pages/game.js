@@ -49,7 +49,7 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
   return (
     <>
       <Helmet>
-        <title>{gameData.name} | GameSearch</title>
+        <title>{gameData.name} | Game Search</title>
       </Helmet>
       <div className="flex-1">
         <div className="flex min-h-full flex-col md:flex-row">

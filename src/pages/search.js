@@ -12,6 +12,7 @@ import {
   cancelFetchRequest,
 } from "../util/rawg";
 import { SET_SELECTED_GAME, ADD_BATCH_GAMES } from "../redux/actionTypes";
+import { Helmet } from "react-helmet";
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = (dispatch) => ({
@@ -72,54 +73,59 @@ function Search({ selectGame, addGamesToKnownGames }) {
   });
 
   return (
-    <div className={cn}>
-      <form
-        className="flex-col w-full sm:w-1/2 md:w-1/3 text-center"
-        autoComplete="off"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <label htmlFor="game-title" className="font-asap italic text-2xl">
-          What are you playing?
-        </label>
-        <input
-          id="game-title"
-          className="text-black rounded w-full mt-4 px-4 py-2"
-          placeholder="Cyberpunk 2077"
-          name="game"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearching(true);
-            setSearchTerm(e.target.value);
-          }}
-          autoFocus
-        />
-      </form>
-      <div className="mt-6 h-6 flex justify-center">
-        {searching && <SyncLoader color="#fff" size="12" />}
+    <>
+      <Helmet>
+        <title>Game Search</title>
+      </Helmet>
+      <div className={cn}>
+        <form
+          className="flex-col w-full sm:w-1/2 md:w-1/3 text-center"
+          autoComplete="off"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <label htmlFor="game-title" className="font-asap italic text-2xl">
+            What are you playing?
+          </label>
+          <input
+            id="game-title"
+            className="text-black rounded w-full mt-4 px-4 py-2"
+            placeholder="Cyberpunk 2077"
+            name="game"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearching(true);
+              setSearchTerm(e.target.value);
+            }}
+            autoFocus
+          />
+        </form>
+        <div className="mt-6 h-6 flex justify-center">
+          {searching && <SyncLoader color="#fff" size="12" />}
+        </div>
+        <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
+          {allMatches.map((match) => (
+            <div key={match.id}>
+              <Link
+                to={`/games/${match.slug}`}
+                onClick={() => {
+                  selectGame(match);
+                }}
+                key={match.id}
+                className="flex w-64 h-auto m-auto sm:mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
+                style={{
+                  backgroundImage: `url(${match.background_image})`,
+                  minHeight: 192,
+                }}
+              >
+                <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-black bg-opacity-50">
+                  {match.name}
+                </span>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
-        {allMatches.map((match) => (
-          <div key={match.id}>
-            <Link
-              to={`/games/${match.slug}`}
-              onClick={() => {
-                selectGame(match);
-              }}
-              key={match.id}
-              className="flex w-64 h-auto m-auto sm:mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
-              style={{
-                backgroundImage: `url(${match.background_image})`,
-                minHeight: 192,
-              }}
-            >
-              <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-black bg-opacity-50">
-                {match.name}
-              </span>
-            </Link>
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
 
