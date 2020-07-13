@@ -6,6 +6,7 @@ import { SET_SELECTED_GAME } from "../redux/actionTypes";
 import { Helmet } from "react-helmet";
 
 import { getSearchURL, SearchEngines } from "../util/search.util";
+import { Button } from "../components/button";
 
 const mapStateToProps = (state, { match: { params } }) => {
   const slug = params.slug;
@@ -94,6 +95,10 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
                 }}
                 autoFocus
               />
+              <div className="flex justify-end">
+                <Button className="mr-4">DuckDuckGo</Button>
+                <Button selected>Google</Button>
+              </div>
             </form>
             <div className="flex-1 overflow-auto">
               <h2>Previous Searches</h2>
