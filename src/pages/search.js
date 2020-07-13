@@ -90,6 +90,7 @@ function Search({ selectGame, addGamesToKnownGames }) {
             id="game-title"
             className="text-black rounded w-full mt-4 px-4 py-2"
             placeholder="Cyberpunk 2077"
+            inputMode="search"
             name="game"
             value={searchTerm}
             onChange={(e) => {

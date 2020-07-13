@@ -88,6 +88,7 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
                 className="w-full my-4 px-6 py-2 text-xl rounded-full text-black"
                 placeholder={`Search about ${gameData.name}`}
                 value={searchValue}
+                inputMode="search"
                 onChange={(e) => {
                   setSearchValue(e.target.value);
                 }}
