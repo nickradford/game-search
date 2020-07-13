@@ -5,6 +5,8 @@ import { loadGameData } from "../redux/actions";
 import { SET_SELECTED_GAME } from "../redux/actionTypes";
 import { Helmet } from "react-helmet";
 
+import { getSearchURL, SearchEngines } from "../util/search.util";
+
 const mapStateToProps = (state, { match: { params } }) => {
   const slug = params.slug;
   const gameKnown = slug in state.games.byIds;
@@ -24,6 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
   const [loading, setLoading] = useState(!gameKnown);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     if (!gameKnown) {
@@ -68,14 +71,29 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
             </div>
           </div>
           <div className="px-4 flex-1 flex flex-col">
-            <div className="">
+            <form
+              className=""
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log("search value", searchValue);
+                window.open(
+                  getSearchURL(`${gameData.name} ${searchValue}`),
+                  "_blank",
+                  "noopener noreferrer"
+                );
+              }}
+            >
               <input
                 type="text"
                 className="w-full my-4 px-6 py-2 text-xl rounded-full text-black"
                 placeholder={`Search about ${gameData.name}`}
+                value={searchValue}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                }}
                 autoFocus
               />
-            </div>
+            </form>
             <div className="flex-1 overflow-auto">
               <h2>Previous Searches</h2>
               <hr className="opacity-25 my-2" />
