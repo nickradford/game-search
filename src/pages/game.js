@@ -66,9 +66,9 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
               {gameData.metacritic && <p>Metacritic {gameData.metacritic}</p>}
             </div>
             <div className="flex justify-center md:justify-start">
-              <button className="text-sm border rounded px-2 py-2 hover:bg-white hover:text-black uppercase tracking-wider">
+              <Button className="text-sm hover:bg-white hover:text-black uppercase tracking-wider">
                 Add to favorites
-              </button>
+              </Button>
             </div>
           </div>
           <div className="px-4 flex-1 flex flex-col">
