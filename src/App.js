@@ -60,7 +60,7 @@ function App({ selectedGameImage }) {
         <footer className="flex justify-end">
           <main>
             Game data provided by{" "}
-            <a href="https://rawg.io" target="_new">
+            <a href="https://rawg.io" target="_new" rel="noopener nofollow">
               rawg.io
             </a>
           </main>
