@@ -8,11 +8,15 @@ export const favoritesSlice = createSlice({
       const slug = action.payload;
       const index = state.indexOf(slug);
 
+      let favorites = [...state];
+
       if (index > -1) {
-        state.splice(index);
+        favorites.splice(index, 1);
       } else {
-        state.push(slug);
+        favorites.push(slug);
       }
+
+      return favorites;
     },
   },
 });

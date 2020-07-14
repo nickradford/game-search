@@ -10,10 +10,9 @@ import { Helmet } from "react-helmet";
 
 import { setSelectedGame, addBatchGames } from "../redux/slices/games";
 import { GameCard } from "../components/game-card";
-import game from "./game";
 
 const mapStateToProps = (state) => {
-  const favoriteSlugs = state.favorites;
+  const favoriteSlugs = [...state.favorites];
   favoriteSlugs.reverse();
 
   const favoriteGames = favoriteSlugs.map((slug) => {
