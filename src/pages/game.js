@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 
 import { getSearchURL, SearchEngines } from "../util/search.util";
 import { Button } from "../components/button";
-import { gamesSlice, loadGameData } from "../redux/reducers/games";
+import { gamesSlice, loadGameData } from "../redux/slices/games";
 
 const mapStateToProps = (state, { match: { params } }) => {
   const slug = params.slug;

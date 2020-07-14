@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 import { connect } from "react-redux";
 
-import debounce from "lodash.debounce";
-
 import SearchPage from "./pages/search";
 import GamePage from "./pages/game";
 import { getRandomTop10Image } from "./util/steam.top10";

@@ -8,7 +8,7 @@ import { SyncLoader } from "react-spinners";
 import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
 import { Helmet } from "react-helmet";
 
-import { setSelectedGame, addBatchGames } from "../redux/reducers/games";
+import { setSelectedGame, addBatchGames } from "../redux/slices/games";
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = (dispatch) => ({
