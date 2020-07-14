@@ -96,7 +96,7 @@ function Search({ selectGame, addGamesToKnownGames }) {
           />
         </form>
         <div className="mt-6 h-6 flex justify-center">
-          {searching && <SyncLoader color="#fff" size="12" />}
+          {searching && <SyncLoader color="white" size="8px" />}
         </div>
         <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
           {allMatches.map((match) => (
