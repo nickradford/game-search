@@ -9,18 +9,29 @@ import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
 import { Helmet } from "react-helmet";
 
 import { setSelectedGame, addBatchGames } from "../redux/slices/games";
+import { GameCard } from "../components/game-card";
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => {
+  const favoriteSlugs = state.favorites;
+  favoriteSlugs.reverse();
+
+  const favoriteGames = favoriteSlugs.map((slug) => state.games.byIds[slug]);
+
+  return {
+    favoriteGames,
+  };
+};
 const mapDispatchToProps = (dispatch) => ({
   selectGame: (game) => dispatch(setSelectedGame(game)),
   addGamesToKnownGames: (games) => dispatch(addBatchGames(games)),
 });
 
-function Search({ selectGame, addGamesToKnownGames }) {
+function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
   const history = useHistory();
   const { name } = useParams();
 
   const [searchTerm, setSearchTerm] = useState(slugToString(name) || "");
+  const [hasSearched, setHasSearched] = useState(false);
   const [searching, setSearching] = useState(name !== "");
   const [debouncedSearchTerm] = useDebounce(searchTerm, 350);
   const [allMatches, setAllMatches] = useState([]);
@@ -100,26 +111,24 @@ function Search({ selectGame, addGamesToKnownGames }) {
         </div>
         <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
           {allMatches.map((match) => (
-            <div key={match.id}>
-              <Link
-                to={`/games/${match.slug}`}
-                onClick={() => {
-                  selectGame(match);
-                }}
-                key={match.id}
-                className="flex w-64 h-auto m-auto sm:mr-4 mb-4 relative bg-black bg-cover bg-center cursor-pointer hover:shadow-xl"
-                style={{
-                  backgroundImage: `url(${match.background_image})`,
-                  minHeight: 192,
-                }}
-              >
-                <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-black bg-opacity-50">
-                  {match.name}
-                </span>
-              </Link>
-            </div>
+            <GameCard
+              game={match}
+              onClick={() => {
+                selectGame(match);
+              }}
+            />
           ))}
         </div>
+        {favoriteGames.length && (
+          <>
+            <h2 className="text-center font-asap italic">Your favorites</h2>
+            <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
+              {favoriteGames.map((game) => (
+                <GameCard game={game} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
