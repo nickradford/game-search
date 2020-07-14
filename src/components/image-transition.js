@@ -9,7 +9,7 @@ const absolute = {
   left: 0,
 };
 
-const duration = 500;
+const duration = 750;
 
 const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out`,
