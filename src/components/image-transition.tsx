@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, CSSProperties } from "react";
 import { Transition } from "react-transition-group";
 
-const absolute = {
+const absolute: CSSProperties = {
   position: "absolute",
   top: 0,
   right: 0,
@@ -23,10 +23,18 @@ const transitionStyles = {
   exited: { opacity: 0 },
 };
 
-export default function ImageTransition(props) {
-  const [currentImage, setCurrentImage] = useState();
+interface ImageTransitionProps {
+  src: string | undefined;
+  style?: React.CSSProperties;
+  loadingColor?: string;
+}
+
+type TransitionStates = "entering" | "entered" | "exiting" | "exited";
+
+export default function ImageTransition(props: ImageTransitionProps) {
+  const [currentImage, setCurrentImage] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (props.src === currentImage) {
@@ -34,7 +42,7 @@ export default function ImageTransition(props) {
     }
     setLoading(true);
     const img = new Image();
-    img.src = props.src;
+    img.src = props.src!;
     img.onload = () => {
       setTimeout(() => {
         setCurrentImage(img.src);
@@ -46,7 +54,7 @@ export default function ImageTransition(props) {
     <div style={{ position: "relative", height: "100%", ...props.style }}>
       {/* Overlay */}
       <Transition in={loading} timeout={0} nodeRef={ref}>
-        {(state) => (
+        {(state: TransitionStates) => (
           <div
             ref={ref}
             style={{
@@ -62,7 +70,7 @@ export default function ImageTransition(props) {
       {/* BG Image */}
       <div
         style={{
-          ...absolute.style,
+          ...absolute,
           background: props.loadingColor || "black",
           backgroundImage: `url(${currentImage})`,
           backgroundPosition: "top",

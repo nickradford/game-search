@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
-    "@types/react-router-dom": "^5.1.5"
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-transition-group": "^4.4.0"
   }
 }
