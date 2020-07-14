@@ -13,12 +13,11 @@ interface GameCardProps {
 
 export const GameCard = ({ game, onClick }: GameCardProps) => {
   return (
-    <div key={game.id}>
       <Link
         to={`/games/${game.slug}`}
         onClick={onClick}
         key={game.id}
-        className="flex w-64 h-auto m-auto sm:mr-4 mb-4 relative bg-gray-900 bg-cover bg-center cursor-pointer hover:shadow-xl"
+        className="flex w-64 h-auto sm:mr-4 mb-4 relative bg-gray-900 bg-cover bg-center cursor-pointer hover:shadow-xl last:mr-0"
         style={{
           minHeight: 192,
         }}
@@ -28,6 +27,5 @@ export const GameCard = ({ game, onClick }: GameCardProps) => {
           {game.name}
         </span>
       </Link>
-    </div>
   );
 };

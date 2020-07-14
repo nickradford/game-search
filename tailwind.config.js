@@ -4,4 +4,7 @@ module.exports = {
       asap: ["Asap", "sans-serif"],
     },
   },
+  variants: {
+    margin: ["responsive", "last"],
+  },
 };
