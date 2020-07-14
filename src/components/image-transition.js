@@ -28,6 +28,9 @@ export default function ImageTransition(props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (props.src === currentImage) {
+      return;
+    }
     setLoading(true);
     const img = new Image();
     img.src = props.src;
@@ -37,7 +40,7 @@ export default function ImageTransition(props) {
         setLoading(false);
       }, 750);
     };
-  }, [props.src]);
+  }, [currentImage, props.src]);
   return (
     <div style={{ position: "relative", height: "100%" }}>
       {/* Overlay */}

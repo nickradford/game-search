@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { loadGameData } from "../redux/actions";
-import { SET_SELECTED_GAME } from "../redux/actionTypes";
+// import { loadGameData } from "../redux/actions";
+// import { SET_SELECTED_GAME } from "../redux/actionTypes";
 import { Helmet } from "react-helmet";
 
 import { getSearchURL, SearchEngines } from "../util/search.util";
 import { Button } from "../components/button";
+import { gamesSlice, loadGameData } from "../redux/reducers/games";
 
 const mapStateToProps = (state, { match: { params } }) => {
   const slug = params.slug;
@@ -22,7 +23,7 @@ const mapStateToProps = (state, { match: { params } }) => {
 const mapDispatchToProps = (dispatch) => ({
   loadGame: (slug) => dispatch(loadGameData(slug)),
   setSelectedGame: (slug) =>
-    dispatch({ type: SET_SELECTED_GAME, payload: { slug } }),
+    dispatch(gamesSlice.actions.setSelectedGame({ slug })),
 });
 
 function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
