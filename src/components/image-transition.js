@@ -43,7 +43,7 @@ export default function ImageTransition(props) {
     };
   }, [currentImage, props.src]);
   return (
-    <div style={{ position: "relative", height: "100%" }}>
+    <div style={{ position: "relative", height: "100%", ...props.style }}>
       {/* Overlay */}
       <Transition in={loading} timeout={0} nodeRef={ref}>
         {(state) => (
@@ -63,6 +63,7 @@ export default function ImageTransition(props) {
       <div
         style={{
           ...absolute.style,
+          background: props.loadingColor || "black",
           backgroundImage: `url(${currentImage})`,
           backgroundPosition: "top",
           backgroundSize: "cover",
