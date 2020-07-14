@@ -7,8 +7,9 @@ import GamePage from "./pages/game";
 import { getRandomTop10Image } from "./util/steam.top10";
 
 import ImageTransition from "./components/image-transition";
+import { Header } from "./components/header";
 
-const mapStateToProps = ({ games }) => {
+const mapStateToProps = ({ games, favorites }) => {
   let selectedGameImage;
 
   let slug = games.selectedGameSlug;
@@ -17,12 +18,15 @@ const mapStateToProps = ({ games }) => {
     selectedGameImage = games.byIds[slug].background_image;
   }
 
+  const favoriteGames = favorites.map((slug) => games.byIds[slug]);
+
   return {
     selectedGameImage,
+    favoriteGames,
   };
 };
 
-function App({ selectedGameImage }) {
+function App({ selectedGameImage, favoriteGames }) {
   const [backgroundImage, setBackgroundImage] = useState();
 
   useEffect(() => {
@@ -56,14 +60,10 @@ function App({ selectedGameImage }) {
         />
       </div>
       <div className="container min-h-full mx-auto flex flex-col sm:justify-between z-10 relative px-4">
-        <header className="font-asap italic text-2xl text-center py-2 md:text-left">
-          <Link
-            to="/"
-            onClick={() => setBackgroundImage(getRandomTop10Image())}
-          >
-            Game Search
-          </Link>
-        </header>
+        <Header
+          onClick={() => setBackgroundImage(getRandomTop10Image())}
+          favorites={favoriteGames}
+        />
 
         <Switch>
           <Route path="/games/:slug">
@@ -79,6 +79,17 @@ function App({ selectedGameImage }) {
 
         <footer className="flex justify-end">
           <main>
+            {/* Temp */}
+            <div>
+              Icons made by{" "}
+              <a href="https://www.flaticon.com/authors/monkik" title="monkik">
+                monkik
+              </a>{" "}
+              from{" "}
+              <a href="https://www.flaticon.com/" title="Flaticon">
+                www.flaticon.com
+              </a>
+            </div>
             Game data provided by{" "}
             <a
               href="https://rawg.io"
