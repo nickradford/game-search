@@ -129,7 +129,13 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
             <h2 className="text-center font-asap italic">Your favorites</h2>
             <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
               {favoriteGames.map((game) => (
-                <GameCard game={game} key={game.slug} />
+                <GameCard
+                  game={game}
+                  key={game.slug}
+                  onClick={() => {
+                    selectGame(game);
+                  }}
+                />
               ))}
             </div>
           </>
