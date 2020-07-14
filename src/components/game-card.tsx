@@ -12,7 +12,7 @@ interface GameCardProps {
     | undefined;
 }
 
-export const GameCard = ({ game, onClick }: GameCardProps) => {
+export const GameCard = ({ game, onClick, loadingColor }: GameCardProps) => {
   return (
     <Link
       to={`/games/${game.slug}`}
@@ -24,6 +24,7 @@ export const GameCard = ({ game, onClick }: GameCardProps) => {
       }}
     >
       <ImageTransition
+        loadingColor={loadingColor || "#1a202c"}
         src={game.background_image}
         style={{ height: "inherit", width: "inherit" }}
       />

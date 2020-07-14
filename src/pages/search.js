@@ -127,7 +127,7 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
         {favoriteGames.length ? (
           <>
             <h2 className="text-center font-asap italic">Your favorites</h2>
-            <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
+            <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center bg-gray">
               {favoriteGames.map((game) => (
                 <GameCard
                   game={game}
