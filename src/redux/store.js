@@ -2,14 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { combineReducers } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import localForage from "localforage";
 
 import { gamesSlice } from "./slices/games";
 import { favoritesSlice } from "./slices/favorites";
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: localForage,
 };
 
 export const rootReducer = combineReducers({

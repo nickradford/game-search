@@ -10,12 +10,17 @@ import { Helmet } from "react-helmet";
 
 import { setSelectedGame, addBatchGames } from "../redux/slices/games";
 import { GameCard } from "../components/game-card";
+import game from "./game";
 
 const mapStateToProps = (state) => {
   const favoriteSlugs = state.favorites;
   favoriteSlugs.reverse();
 
-  const favoriteGames = favoriteSlugs.map((slug) => state.games.byIds[slug]);
+  const favoriteGames = favoriteSlugs.map((slug) => {
+    if (slug in state.games.byIds) {
+      return state.games.byIds[slug];
+    }
+  });
 
   return {
     favoriteGames,
@@ -113,22 +118,23 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
           {allMatches.map((match) => (
             <GameCard
               game={match}
+              key={match.slug}
               onClick={() => {
                 selectGame(match);
               }}
             />
           ))}
         </div>
-        {favoriteGames.length && (
+        {favoriteGames.length ? (
           <>
             <h2 className="text-center font-asap italic">Your favorites</h2>
             <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
               {favoriteGames.map((game) => (
-                <GameCard game={game} />
+                <GameCard game={game} key={game.slug} />
               ))}
             </div>
           </>
-        )}
+        ) : null}
       </div>
     </>
   );

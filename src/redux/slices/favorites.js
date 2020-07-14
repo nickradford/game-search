@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const favoritesSlice = createSlice({
   name: "favorites",
-  initialState: ["red-dead-redemption-2"],
+  initialState: [],
   reducers: {
     toggleFavorite: (state, action) => {
       const slug = action.payload;
