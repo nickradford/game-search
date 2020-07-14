@@ -1,12 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getGameBySlug } from "../../util/rawg";
 
-import {
-  SET_SELECTED_GAME,
-  ADD_BATCH_GAMES,
-  ADD_SINGLE_GAME,
-} from "../actionTypes";
-
 export const gamesSlice = createSlice({
   name: "games",
   initialState: {
@@ -17,7 +11,7 @@ export const gamesSlice = createSlice({
   },
   reducers: {
     loadGameDataStart: (state) => ({ ...state, loading: true }),
-    loadGameDataSuccess: (state, action) => {
+    loadGameDataSuccess: (state) => {
       state.loading = false;
     },
     addSingleGame: (state, action) => ({
@@ -27,6 +21,16 @@ export const gamesSlice = createSlice({
         [action.payload.slug]: action.payload,
       },
       allKnownGames: [...state.allKnownGames, action.payload],
+    }),
+    addBatchGames: (state, action) => ({
+      ...state,
+      byIds: {
+        ...state.byIds,
+        ...action.payload.reduce(
+          (prev, curr) => ({ ...prev, [curr.slug]: curr }),
+          {}
+        ),
+      },
     }),
     setSelectedGame: (state, action) => ({
       ...state,
@@ -51,52 +55,4 @@ export function loadGameData(slug) {
     await dispatch(addSingleGame(game));
     dispatch(loadGameDataSuccess());
   };
-}
-
-const initialState = {
-  selectedGameSlug: null,
-  allKnownGames: [],
-  byIds: {},
-};
-
-export default function gamesReducer(state = initialState, action) {
-  switch (action.type) {
-    case SET_SELECTED_GAME:
-      const { slug } = action.payload;
-
-      return {
-        ...state,
-        selectedGameSlug: slug,
-      };
-
-    case ADD_SINGLE_GAME:
-      const game = action.payload;
-
-      return {
-        ...state,
-        byIds: {
-          ...state.byIds,
-          [game.slug]: game,
-        },
-      };
-
-    case ADD_BATCH_GAMES:
-      const games = action.payload;
-      console.log(games);
-      const obj = games.reduce(
-        (prev, curr) => ({ ...prev, [curr.slug]: curr }),
-        {}
-      );
-
-      return {
-        ...state,
-        byIds: {
-          ...state.byIds,
-          ...obj,
-        },
-      };
-
-    default:
-      return state;
-  }
 }

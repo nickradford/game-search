@@ -11,14 +11,13 @@ import {
   slugToString,
   cancelFetchRequest,
 } from "../util/rawg";
-import { SET_SELECTED_GAME, ADD_BATCH_GAMES } from "../redux/actionTypes";
 import { Helmet } from "react-helmet";
+import { addSingleGame, setSelectedGame } from "../redux/reducers/games";
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = (dispatch) => ({
-  selectGame: (game) => dispatch({ type: SET_SELECTED_GAME, payload: game }),
-  addGamesToKnownGames: (games) =>
-    dispatch({ type: ADD_BATCH_GAMES, payload: games }),
+  selectGame: (game) => dispatch(setSelectedGame(game)),
+  addGamesToKnownGames: (games) => dispatch(),
 });
 
 function Search({ selectGame, addGamesToKnownGames }) {

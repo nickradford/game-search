@@ -1,4 +1,0 @@
-export const SET_SELECTED_GAME = "SET_SELECTED_GAME";
-export const ADD_BATCH_GAMES = "ADD_BATCH_GAMES";
-export const ADD_SINGLE_GAME = "ADD_SINGLE_GAME";
-export const LOAD_GAME_DATA = "LOAD_GAME_DATA";
