@@ -7,26 +7,37 @@ import { Helmet } from "react-helmet";
 
 import { getSearchURL, SearchEngines } from "../util/search.util";
 import { Button } from "../components/button";
-import { gamesSlice, loadGameData } from "../redux/slices/games";
+import { setSelectedGame, loadGameData } from "../redux/slices/games";
+import { toggleFavorite } from "../redux/slices/favorites";
 
 const mapStateToProps = (state, { match: { params } }) => {
   const slug = params.slug;
   const gameKnown = slug in state.games.byIds;
   const gameData = gameKnown ? state.games.byIds[slug] : null;
+  const isFavorite = state.favorites.indexOf(slug) !== -1;
 
   return {
     slug,
     gameKnown,
     gameData,
+    isFavorite,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
   loadGame: (slug) => dispatch(loadGameData(slug)),
-  setSelectedGame: (slug) =>
-    dispatch(gamesSlice.actions.setSelectedGame({ slug })),
+  setSelectedGame: (slug) => dispatch(setSelectedGame({ slug })),
+  toggleIsFavorite: (slug) => dispatch(toggleFavorite(slug)),
 });
 
-function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
+function GamePage({
+  slug,
+  gameKnown,
+  gameData,
+  loadGame,
+  setSelectedGame,
+  isFavorite,
+  toggleIsFavorite,
+}) {
   const [loading, setLoading] = useState(!gameKnown);
   const [searchValue, setSearchValue] = useState("");
 
@@ -67,8 +78,12 @@ function GamePage({ slug, gameKnown, gameData, loadGame, setSelectedGame }) {
               {gameData.metacritic && <p>Metacritic {gameData.metacritic}</p>}
             </div>
             <div className="flex justify-center md:justify-start">
-              <Button className="text-sm hover:bg-white hover:text-black uppercase tracking-wider">
-                Add to favorites
+              <Button
+                selected={isFavorite}
+                onClick={() => toggleIsFavorite(slug)}
+                className="text-sm hover:bg-white hover:text-black uppercase tracking-wider"
+              >
+                {isFavorite ? "Remove from" : "Add to"} favorites
               </Button>
             </div>
           </div>

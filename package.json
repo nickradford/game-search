@@ -21,6 +21,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "tailwindcss": "^1.4.6",
+    "typescript": "^3.9.6",
     "use-debounce": "^3.4.2"
   },
   "scripts": {
@@ -46,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.2.10"
   }
 }
