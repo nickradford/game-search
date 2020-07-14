@@ -41,6 +41,7 @@ export const gamesSlice = createSlice({
 
 export const {
   addSingleGame,
+  addBatchGames,
   loadGameDataStart,
   loadGameDataSuccess,
   setSelectedGame,

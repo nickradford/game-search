@@ -5,19 +5,15 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { SyncLoader } from "react-spinners";
 
-import {
-  searchForGame,
-  formatSearchTerm,
-  slugToString,
-  cancelFetchRequest,
-} from "../util/rawg";
+import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
 import { Helmet } from "react-helmet";
-import { addSingleGame, setSelectedGame } from "../redux/reducers/games";
+
+import { setSelectedGame, addBatchGames } from "../redux/reducers/games";
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = (dispatch) => ({
   selectGame: (game) => dispatch(setSelectedGame(game)),
-  addGamesToKnownGames: (games) => dispatch(),
+  addGamesToKnownGames: (games) => dispatch(addBatchGames(games)),
 });
 
 function Search({ selectGame, addGamesToKnownGames }) {
