@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Transition } from "react-transition-group";
 
 const absolute = {
@@ -26,6 +26,7 @@ const transitionStyles = {
 export default function ImageTransition(props) {
   const [currentImage, setCurrentImage] = useState();
   const [loading, setLoading] = useState(false);
+  const ref = useRef();
 
   useEffect(() => {
     if (props.src === currentImage) {
@@ -44,9 +45,10 @@ export default function ImageTransition(props) {
   return (
     <div style={{ position: "relative", height: "100%" }}>
       {/* Overlay */}
-      <Transition in={loading} timeout={0}>
+      <Transition in={loading} timeout={0} nodeRef={ref}>
         {(state) => (
           <div
+            ref={ref}
             style={{
               ...absolute,
               background: props.loadingColor || "black",
