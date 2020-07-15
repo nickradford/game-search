@@ -89,7 +89,7 @@ function GamePage({
           </div>
           <div className="px-4 flex-1 flex flex-col">
             <form
-              className=""
+              className="flex items-center"
               onSubmit={(e) => {
                 e.preventDefault();
                 console.log("search value", searchValue);
@@ -102,7 +102,7 @@ function GamePage({
             >
               <input
                 type="text"
-                className="w-full my-4 px-6 py-2 text-xl rounded-full text-black"
+                className="flex-1 my-4 mr-4 px-6 py-2 text-xl rounded-full text-black"
                 placeholder={`Search about ${gameData.name}`}
                 value={searchValue}
                 inputMode="search"
@@ -111,10 +111,9 @@ function GamePage({
                 }}
                 autoFocus
               />
-              <div className="flex justify-end">
-                <Button className="mr-4">DuckDuckGo</Button>
-                <Button selected>Google</Button>
-              </div>
+              <Button className="" selected>
+                Search with Google
+              </Button>
             </form>
             <div className="flex-1 overflow-auto">
               <h2>Previous Searches</h2>

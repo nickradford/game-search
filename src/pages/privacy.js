@@ -2,7 +2,7 @@ import React from "react";
 
 export function PrivacyPage() {
   return (
-    <div className=" max-w-2xl m-auto">
+    <div className="bg-black p-4 rounded bg-opacity-75 max-w-3xl m-auto">
       <h1 className="font-bold text-3xl mb-2">Privacy</h1>
       <p className="mb-4">
         <span className="font-bold italic">Game Search</span> does not under any
