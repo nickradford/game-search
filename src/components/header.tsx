@@ -9,7 +9,7 @@ interface HeaderProps {
   favorites?: RAWGGame[];
 }
 
-export const Header = ({onClick, favorites}: HeaderProps) => {
+export const Header = ({onClick, favorites = []}: HeaderProps) => {
   return <header className="text-white font-asap ">
   <div className="container mx-auto flex flex-wrap py-5 flex-col md:flex-row items-center">
     <Link className="flex title-font font-medium items-center text-white mb-4 md:mb-0" to='/' onClick={onClick}>
@@ -18,7 +18,7 @@ export const Header = ({onClick, favorites}: HeaderProps) => {
     </Link>
     <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center text-gray-300">
       {/* <a className="mr-5 hover:text-white">First Link</a> */}
-<a className="mr-5 hover:text-white">Favorites { favorites && favorites!.length }</a>
+      { favorites!.length ? <a className="mr-5 hover:text-white">Favorites</a> : null }
       <Link className="mr-5 hover:text-white" to='/privacy'>Privacy</Link> 
       <Link className="hover:text-white" to='/settings'>Settings</Link>
     </nav>

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import SearchPage from "./pages/search";
 import GamePage from "./pages/game";
 import { PrivacyPage } from "./pages/privacy";
+import { SettingsPage } from "./pages/settings";
 import { getRandomTop10Image } from "./util/steam.top10";
 
 import ImageTransition from "./components/image-transition";
@@ -77,6 +78,9 @@ function App({ selectedGameImage, favoriteGames }) {
           </Route>
           <Route path="/privacy" exact>
             <PrivacyPage />
+          </Route>
+          <Route path="/settings" exact>
+            <SettingsPage />
           </Route>
           <Route path="/" exact>
             <SearchPage name={null} />

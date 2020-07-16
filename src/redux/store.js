@@ -6,6 +6,7 @@ import localForage from "localforage";
 
 import { gamesSlice } from "./slices/games";
 import { favoritesSlice } from "./slices/favorites";
+import { settingsSlice } from "./slices/settings";
 
 const persistConfig = {
   key: "root",
@@ -15,6 +16,7 @@ const persistConfig = {
 export const rootReducer = combineReducers({
   games: gamesSlice.reducer,
   favorites: favoritesSlice.reducer,
+  settings: settingsSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
