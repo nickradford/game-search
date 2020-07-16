@@ -34,7 +34,7 @@ export const gamesSlice = createSlice({
     }),
     setSelectedGame: (state, action) => ({
       ...state,
-      selectedGameSlug: action.payload.slug,
+      selectedGameSlug: action.payload ? action.payload.slug : null,
     }),
   },
 });

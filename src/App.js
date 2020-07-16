@@ -31,7 +31,9 @@ function App({ selectedGameImage, favoriteGames }) {
   const [backgroundImage, setBackgroundImage] = useState();
 
   useEffect(() => {
-    setBackgroundImage(selectedGameImage);
+    if (selectedGameImage) {
+      setBackgroundImage(selectedGameImage);
+    }
   }, [selectedGameImage]);
 
   const route = useRouteMatch();

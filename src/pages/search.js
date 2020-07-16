@@ -41,6 +41,9 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
   const [allMatches, setAllMatches] = useState([]);
 
   useEffect(() => {
+    selectGame(null);
+  }, [selectGame]);
+  useEffect(() => {
     if (name === undefined) {
       setAllMatches([]);
       setSearchTerm("");
