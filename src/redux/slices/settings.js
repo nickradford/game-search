@@ -9,12 +9,15 @@ export const SearchEngines = {
   DUCKDUCKGO: "DuckDuckGo",
 };
 
+const initialState = {
+  defaultSearchEngine: SearchEngines.GOOGLE,
+};
+
 export const settingsSlice = createSlice({
   name: "settings",
-  initialState: {
-    defaultSearchEngine: SearchEngines.GOOGLE,
-  },
+  initialState,
   reducers: {
+    PURGE: () => initialState,
     setSettingValue: (state, action) => {
       return {
         ...state,

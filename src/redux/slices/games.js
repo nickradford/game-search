@@ -1,15 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getGameBySlug } from "../../util/rawg";
 
+const initialState = {
+  selectedGameSlug: null,
+  allKnownGames: [],
+  byIds: {},
+  loading: false,
+};
+
 export const gamesSlice = createSlice({
   name: "games",
-  initialState: {
-    selectedGameSlug: null,
-    allKnownGames: [],
-    byIds: {},
-    loading: false,
-  },
+  initialState,
   reducers: {
+    PURGE: () => initialState,
     loadGameDataStart: (state) => ({ ...state, loading: true }),
     loadGameDataSuccess: (state) => {
       state.loading = false;

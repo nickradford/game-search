@@ -1,11 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import localForage from "localforage";
-import { useHistory } from "react-router-dom";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 import { Button } from "../components/button";
+import { purge } from "../redux/store";
 
 import {
   SearchEngines,
@@ -29,8 +28,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 function Settings({ settings, setDefaultSearchEngine }) {
-  const history = useHistory();
-
   function clearAllData() {
     confirmAlert({
       title: "Delete all data",
@@ -44,10 +41,9 @@ function Settings({ settings, setDefaultSearchEngine }) {
             <div className="flex justify-end">
               <Button
                 className="bg-red-700 border-red-700 mr-2"
-                onClick={async () => {
-                  await localForage.clear();
+                onClick={() => {
+                  purge();
                   onClose();
-                  history.push("/");
                 }}
               >
                 Yes, delete

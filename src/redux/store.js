@@ -13,6 +13,8 @@ const persistConfig = {
   storage: localForage,
 };
 
+export { localForage as storage };
+
 export const rootReducer = combineReducers({
   games: gamesSlice.reducer,
   favorites: favoritesSlice.reducer,
@@ -25,5 +27,13 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: [thunk],
 });
+
+const slices = [gamesSlice, favoritesSlice, settingsSlice];
+
+export const purge = () => {
+  persistor.pause();
+  slices.forEach((slice) => store.dispatch(slice.actions.PURGE()));
+  persistor.persist();
+};
 
 export const persistor = persistStore(store);
