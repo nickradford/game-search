@@ -116,7 +116,7 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
         <div className="mt-6 h-6 flex justify-center">
           {searching && <SyncLoader color="white" size="8px" />}
         </div>
-        <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
+        <div className="flex flex-row w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
           {allMatches.map((match) => (
             <GameCard
               game={match}
@@ -130,7 +130,7 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
         {favoriteGames.length ? (
           <>
             <h2 className="text-center font-asap italic">Your favorites</h2>
-            <div className="block sm:flex sm:flex-row sm:w-full px-8 mt-8 flex-wrap m-auto items-center justify-center bg-gray">
+            <div className="flex w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
               {favoriteGames.map((game) => (
                 <GameCard
                   game={game}
