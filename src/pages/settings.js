@@ -56,7 +56,7 @@ function Settings({ settings, setDefaultSearchEngine }) {
     });
   }
   return (
-    <div className="bg-black p-4 rounded bg-opacity-75 max-w-3xl m-auto prose w-1/2">
+    <div className="bg-black p-4 rounded bg-opacity-75 md:max-w-3xl m-auto prose w-full md:w-2/3 xl:w-1/2">
       <h1 className="italic">Settings</h1>
 
       <div className="mb-4">
