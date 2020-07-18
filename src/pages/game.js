@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-// import { loadGameData } from "../redux/actions";
-// import { SET_SELECTED_GAME } from "../redux/actionTypes";
 import { Helmet } from "react-helmet";
 
-import { getSearchURL, SearchEngines } from "../util/search.util";
+import { getSearchURL } from "../util/search.util";
 import { Button } from "../components/button";
 import { setSelectedGame, loadGameData } from "../redux/slices/games";
 import { toggleFavorite } from "../redux/slices/favorites";
@@ -21,6 +19,9 @@ const mapStateToProps = (state, { match: { params } }) => {
     gameKnown,
     gameData,
     isFavorite,
+    searchEngine: state.settings.defaultSearchEngine,
+    getSearchURLforGame: (q) =>
+      getSearchURL(gameData.name, q, state.settings.defaultSearchEngine),
   };
 };
 const mapDispatchToProps = (dispatch) => ({
@@ -37,6 +38,8 @@ function GamePage({
   setSelectedGame,
   isFavorite,
   toggleIsFavorite,
+  searchEngine,
+  getSearchURLforGame,
 }) {
   const [loading, setLoading] = useState(!gameKnown);
   const [searchValue, setSearchValue] = useState("");
@@ -93,8 +96,9 @@ function GamePage({
               onSubmit={(e) => {
                 e.preventDefault();
                 console.log("search value", searchValue);
+                console.log("url", getSearchURLforGame(searchValue));
                 window.open(
-                  getSearchURL(`${gameData.name} ${searchValue}`),
+                  getSearchURLforGame(searchValue),
                   "_blank",
                   "noopener noreferrer"
                 );
@@ -111,8 +115,8 @@ function GamePage({
                 }}
                 autoFocus
               />
-              <Button className="" selected>
-                Search with Google
+              <Button className="" selected type="submit">
+                Search with {searchEngine}
               </Button>
             </form>
             <div className="flex-1 overflow-auto">
