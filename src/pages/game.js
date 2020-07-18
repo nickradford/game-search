@@ -139,21 +139,23 @@ function GamePage({
                 Search with {searchEngine}
               </Button>
             </form>
-            <div className="flex-1 overflow-auto">
-              <h2>Previous Searches</h2>
-              <hr className="opacity-25 my-2" />
-              {previousSearches.map((search) => (
-                <div
-                  className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer"
-                  key={search.url}
-                  onClick={() => {
-                    safeWindowOpen(search.url);
-                  }}
-                >
-                  {search.query}
-                </div>
-              ))}
-            </div>
+            {previousSearches.length ? (
+              <div className="flex-1 overflow-auto">
+                <h2>Previous Searches</h2>
+                <hr className="opacity-25 my-2" />
+                {previousSearches.map((search) => (
+                  <div
+                    className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer"
+                    key={search.url}
+                    onClick={() => {
+                      safeWindowOpen(search.url);
+                    }}
+                  >
+                    {search.query}
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
