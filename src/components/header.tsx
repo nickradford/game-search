@@ -5,6 +5,7 @@ import { GamePad } from "./gamepad";
 import { RAWGGame } from "../interfaces/game";
 
 import { Dropdown } from "./dropdown";
+import ImageTransition from "./image-transition";
 
 interface HeaderProps {
   onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -31,7 +32,19 @@ export const Header = ({ onClick, favorites = [] }: HeaderProps) => {
               <Dropdown.Menu>
                 {favorites.map((game) => (
                   <Dropdown.MenuItem>
-                    <Link to={`/games/${game.slug}`}>{game.name}</Link>
+                    <Link
+                      to={`/games/${game.slug}`}
+                      className="flex items-center"
+                    >
+                      <ImageTransition
+                        src={game.background_image}
+                        className="box-border flex-shrink-0"
+                        style={{ width: "80px", height: "45px" }}
+                      />
+                      <span className="md:whitespace-no-wrap ml-4">
+                        {game.name}
+                      </span>
+                    </Link>
                   </Dropdown.MenuItem>
                 ))}
               </Dropdown.Menu>

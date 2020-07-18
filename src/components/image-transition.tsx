@@ -26,6 +26,7 @@ const transitionStyles = {
 interface ImageTransitionProps {
   src: string | undefined;
   style?: React.CSSProperties;
+  className?: string;
   loadingColor?: string;
 }
 
@@ -51,7 +52,7 @@ export default function ImageTransition(props: ImageTransitionProps) {
     };
   }, [currentImage, props.src]);
   return (
-    <div style={{ position: "relative", height: "100%", ...props.style }}>
+    <div className={props.className} style={{ position: "relative", height: "100%", ...props.style }}>
       {/* Overlay */}
       <Transition in={loading} timeout={0} nodeRef={ref}>
         {(state: TransitionStates) => (

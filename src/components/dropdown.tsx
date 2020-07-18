@@ -12,9 +12,15 @@ const DropdownContext = React.createContext({
   toggleIsOpen: () => {},
 });
 
-interface DropdownProps extends BaseProps {}
-export const Dropdown = ({ className, children }: DropdownProps) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+interface DropdownProps extends BaseProps {
+  startOpen?: boolean;
+}
+export const Dropdown = ({
+  className,
+  children,
+  startOpen = false,
+}: DropdownProps) => {
+  const [isOpen, setIsOpen] = React.useState(startOpen);
   const ref = React.useRef(null);
   useOnClickOutside(ref, () => setIsOpen(false));
 
@@ -55,7 +61,7 @@ function Menu({ className = "", children }: DropdownMenuProps) {
   const ctx = React.useContext(DropdownContext);
 
   const menuClasses = cn(
-    "absolute mx-4 md:mx-0 md:w-64 left-0 right-0 md:left-auto bg-black bg-opacity-75 rounded py-4",
+    "absolute mx-4 md:mx-0 w- left-0 right-0 md:left-auto bg-black bg-opacity-75 rounded py-4",
     {
       hidden: ctx.isOpen === false,
       block: ctx.isOpen,
