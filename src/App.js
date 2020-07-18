@@ -20,7 +20,7 @@ const mapStateToProps = ({ games, favorites }) => {
     selectedGameImage = games.byIds[slug].background_image;
   }
 
-  const favoriteGames = favorites.map((slug) => games.byIds[slug]);
+  const favoriteGames = favorites.map((slug) => games.byIds[slug]).reverse();
 
   return {
     selectedGameImage,
