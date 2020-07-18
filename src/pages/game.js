@@ -5,29 +5,57 @@ import { Helmet } from "react-helmet";
 
 import { getSearchURL } from "../util/search.util";
 import { Button } from "../components/button";
-import { setSelectedGame, loadGameData } from "../redux/slices/games";
+import {
+  setSelectedGame,
+  loadGameData,
+  addSearch as addSearchAction,
+} from "../redux/slices/games";
 import { toggleFavorite } from "../redux/slices/favorites";
+
+const safeWindowOpen = (url) =>
+  window.open(url, "_blank", "noopener noreferrer");
 
 const mapStateToProps = (state, { match: { params } }) => {
   const slug = params.slug;
   const gameKnown = slug in state.games.byIds;
   const gameData = gameKnown ? state.games.byIds[slug] : null;
   const isFavorite = state.favorites.indexOf(slug) !== -1;
+  const previousSearches =
+    slug in state.games.searches ? state.games.searches[slug] : [];
 
   return {
     slug,
     gameKnown,
     gameData,
     isFavorite,
+    previousSearches,
     searchEngine: state.settings.defaultSearchEngine,
     getSearchURLforGame: (q) =>
       getSearchURL(gameData.name, q, state.settings.defaultSearchEngine),
   };
 };
+
+// query: 'searchQuery',
+// dateSearched: Date,
+// searchEngine: SearchEngine,
+// url
+
 const mapDispatchToProps = (dispatch) => ({
   loadGame: (slug) => dispatch(loadGameData(slug)),
   setSelectedGame: (slug) => dispatch(setSelectedGame({ slug })),
   toggleIsFavorite: (slug) => dispatch(toggleFavorite(slug)),
+  addSearch: (gameSlug, query, searchEngine, generatedUrl) =>
+    dispatch(
+      addSearchAction({
+        gameSlug,
+        search: {
+          query,
+          searchEngine,
+          url: generatedUrl,
+          dateSearched: Date.now(),
+        },
+      })
+    ),
 });
 
 function GamePage({
@@ -40,6 +68,8 @@ function GamePage({
   toggleIsFavorite,
   searchEngine,
   getSearchURLforGame,
+  addSearch,
+  previousSearches,
 }) {
   const [loading, setLoading] = useState(!gameKnown);
   const [searchValue, setSearchValue] = useState("");
@@ -56,14 +86,6 @@ function GamePage({
   if (loading) {
     return null;
   }
-
-  const prevSearches = [
-    "Map",
-    "Cheat Codes",
-    "Walkthrough",
-    "Twitch Streams",
-    "Wiki",
-  ];
 
   return (
     <>
@@ -97,11 +119,9 @@ function GamePage({
                 e.preventDefault();
                 console.log("search value", searchValue);
                 console.log("url", getSearchURLforGame(searchValue));
-                window.open(
-                  getSearchURLforGame(searchValue),
-                  "_blank",
-                  "noopener noreferrer"
-                );
+                const url = getSearchURLforGame(searchValue);
+                addSearch(slug, searchValue, searchEngine, url);
+                safeWindowOpen(url);
               }}
             >
               <input
@@ -122,12 +142,15 @@ function GamePage({
             <div className="flex-1 overflow-auto">
               <h2>Previous Searches</h2>
               <hr className="opacity-25 my-2" />
-              {prevSearches.map((value, index) => (
+              {previousSearches.map((search) => (
                 <div
                   className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer"
-                  key={index}
+                  key={search.url}
+                  onClick={() => {
+                    safeWindowOpen(search.url);
+                  }}
                 >
-                  {value}
+                  {search.query}
                 </div>
               ))}
             </div>

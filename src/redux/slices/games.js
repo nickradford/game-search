@@ -6,6 +6,7 @@ const initialState = {
   allKnownGames: [],
   byIds: {},
   loading: false,
+  searches: {},
 };
 
 export const gamesSlice = createSlice({
@@ -39,6 +40,23 @@ export const gamesSlice = createSlice({
       ...state,
       selectedGameSlug: action.payload ? action.payload.slug : null,
     }),
+    addSearch: (state, action) => {
+      const prevSearches = state.searchs ? state.searches : {};
+      const prevGameSearches =
+        action.payload.gameSlug in state.searches
+          ? state.searches[action.payload.gameSlug]
+          : [];
+      return {
+        ...state,
+        searches: {
+          ...prevSearches,
+          [action.payload.gameSlug]: [
+            action.payload.search,
+            ...prevGameSearches,
+          ],
+        },
+      };
+    },
   },
 });
 
@@ -48,6 +66,7 @@ export const {
   loadGameDataStart,
   loadGameDataSuccess,
   setSelectedGame,
+  addSearch,
 } = gamesSlice.actions;
 
 export function loadGameData(slug) {
