@@ -61,7 +61,7 @@ function Menu({ className = "", children }: DropdownMenuProps) {
   const ctx = React.useContext(DropdownContext);
 
   const menuClasses = cn(
-    "absolute mx-4 md:mx-0 w- left-0 right-0 md:left-auto bg-black bg-opacity-75 rounded py-4",
+    "absolute mx-4 md:mx-0 w- left-0 right-0 md:left-auto bg-black rounded py-4",
     {
       hidden: ctx.isOpen === false,
       block: ctx.isOpen,
