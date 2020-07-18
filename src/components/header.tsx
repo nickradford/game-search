@@ -2,6 +2,9 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 
 import { GamePad } from "./gamepad";
+
+import { LogoFilled, LogoOutline } from './logo';
+
 import { RAWGGame } from "../interfaces/game";
 
 import { Dropdown } from "./dropdown";
@@ -21,8 +24,8 @@ export const Header = ({ onClick, favorites = [] }: HeaderProps) => {
           to="/"
           onClick={onClick}
         >
-          <GamePad />
-          <span className="ml-3 text-xl font-bold italic">Game Search</span>
+          <LogoOutline />
+          <span className="ml-3 text-3xl font-bold italic">GameSearch</span>
         </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center text-gray-300">
           {/* <a className="mr-5 hover:text-white">First Link</a> */}
