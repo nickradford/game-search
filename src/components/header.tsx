@@ -1,12 +1,8 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { GamePad } from "./gamepad";
-
-import { LogoFilled, LogoOutline } from './logo';
-
+import { LogoOutline } from './logo';
 import { RAWGGame } from "../interfaces/game";
-
 import { Dropdown } from "./dropdown";
 import ImageTransition from "./image-transition";
 

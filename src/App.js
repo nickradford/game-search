@@ -89,17 +89,6 @@ function App({ selectedGameImage, favoriteGames }) {
 
         <footer className="flex justify-end">
           <main>
-            {/* Temp */}
-            <div>
-              Icons made by{" "}
-              <a href="https://www.flaticon.com/authors/monkik" title="monkik">
-                monkik
-              </a>{" "}
-              from{" "}
-              <a href="https://www.flaticon.com/" title="Flaticon">
-                www.flaticon.com
-              </a>
-            </div>
             Game data provided by{" "}
             <a
               href="https://rawg.io"
