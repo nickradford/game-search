@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
+import TimeAgo from "react-timeago";
 
 import { getSearchURL } from "../util/search.util";
 import { Button } from "../components/button";
@@ -144,15 +145,16 @@ function GamePage({
                 <h2>Previous Searches</h2>
                 <hr className="opacity-25 my-2" />
                 {previousSearches.map((search) => (
-                  <div
-                    className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer"
+                  <a
+                    className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer flex justify-between"
                     key={search.url}
-                    onClick={() => {
-                      safeWindowOpen(search.url);
-                    }}
+                    href={search.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
                   >
-                    {search.query}
-                  </div>
+                    <span>{search.query}</span>
+                    <TimeAgo date={search.dateSearched} />
+                  </a>
                 ))}
               </div>
             ) : null}
