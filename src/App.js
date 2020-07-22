@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import SearchPage from "./pages/search";
@@ -7,6 +7,7 @@ import GamePage from "./pages/game";
 import { PrivacyPage } from "./pages/privacy";
 import { SettingsPage } from "./pages/settings";
 import { getRandomTop10Image } from "./util/steam.top10";
+import { unpinGame as unpinGameAction } from "./redux/slices/games";
 
 import ImageTransition from "./components/image-transition";
 import { Header } from "./components/header";
@@ -15,6 +16,7 @@ const mapStateToProps = ({ games, favorites }) => {
   let selectedGameImage;
 
   let slug = games.selectedGameSlug;
+  let { pinnedGame } = games;
 
   if (slug && slug in games.byIds) {
     selectedGameImage = games.byIds[slug].background_image;
@@ -25,10 +27,15 @@ const mapStateToProps = ({ games, favorites }) => {
   return {
     selectedGameImage,
     favoriteGames,
+    pinnedGame,
   };
 };
 
-function App({ selectedGameImage, favoriteGames }) {
+const mapDispatchToProps = (dispatch) => ({
+  unpinGame: () => dispatch(unpinGameAction()),
+});
+
+function App({ selectedGameImage, favoriteGames, pinnedGame, unpinGame }) {
   const [backgroundImage, setBackgroundImage] = useState();
 
   useEffect(() => {
@@ -66,6 +73,8 @@ function App({ selectedGameImage, favoriteGames }) {
       <div className="container min-h-full mx-auto flex flex-col sm:justify-between z-10 relative px-4">
         <Header
           onClick={() => setBackgroundImage(getRandomTop10Image())}
+          pinnedGame={pinnedGame}
+          unpinGame={unpinGame}
           favorites={favoriteGames}
         />
 
@@ -73,7 +82,7 @@ function App({ selectedGameImage, favoriteGames }) {
           <Route path="/games/:slug">
             <GamePage />
           </Route>
-          <Route path="/search/:name" exact>
+          <Route path="/search/:name?">
             <SearchPage />
           </Route>
           <Route path="/privacy" exact>
@@ -83,7 +92,11 @@ function App({ selectedGameImage, favoriteGames }) {
             <SettingsPage />
           </Route>
           <Route path="/" exact>
-            <SearchPage name={null} />
+            {pinnedGame ? (
+              <Redirect to={`/games/${pinnedGame.slug}`} />
+            ) : (
+              <SearchPage name={null} />
+            )}
           </Route>
         </Switch>
 
@@ -105,4 +118,4 @@ function App({ selectedGameImage, favoriteGames }) {
   );
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

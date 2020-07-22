@@ -10,8 +10,6 @@ import { store, persistor } from "./redux/store";
 
 import * as serviceWorker from "./serviceWorker";
 
-// const store = configureStore();
-
 persistor.persist();
 
 ReactDOM.render(

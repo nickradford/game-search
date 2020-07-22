@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
+import { PushPin } from './pushpin';
 import { LogoOutline } from './logo';
 import { RAWGGame } from "../interfaces/game";
 import { Dropdown } from "./dropdown";
@@ -8,16 +9,18 @@ import ImageTransition from "./image-transition";
 
 interface HeaderProps {
   onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  pinnedGame?: RAWGGame;
+  unpinGame: Function;
   favorites?: RAWGGame[];
 }
 
-export const Header = ({ onClick, favorites = [] }: HeaderProps) => {
+export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: HeaderProps) => {
   return (
     <header className="text-white font-asap ">
       <div className="container mx-auto flex flex-wrap py-5 flex-col md:flex-row items-center">
         <Link
           className="flex title-font font-medium items-center text-white mb-4 md:mb-0"
-          to="/"
+          to="/search"
           onClick={onClick}
         >
           <LogoOutline />
@@ -25,6 +28,12 @@ export const Header = ({ onClick, favorites = [] }: HeaderProps) => {
         </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center text-gray-300">
           {/* <a className="mr-5 hover:text-white">First Link</a> */}
+          {pinnedGame ? <Dropdown className='mr-5'>
+            <Dropdown.Label><span className='flex items-center'><PushPin className='w-4 mr-4 transform -rotate-90'/><span>{pinnedGame.name}</span></span></Dropdown.Label>
+            <Dropdown.Menu>
+              <Dropdown.MenuItem onClick={unpinGame}>Unpin</Dropdown.MenuItem>
+            </Dropdown.Menu>
+          </Dropdown>: null}
           {favorites!.length ? (
             <Dropdown className="mr-5">
               <Dropdown.Label>Favorites</Dropdown.Label>

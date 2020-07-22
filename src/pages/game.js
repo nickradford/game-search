@@ -10,6 +10,9 @@ import {
   setSelectedGame,
   loadGameData,
   addSearch as addSearchAction,
+  setPinnedGame as setPinnedGameAction,
+  setPinnedGame,
+  unpinGame,
 } from "../redux/slices/games";
 import { toggleFavorite } from "../redux/slices/favorites";
 
@@ -29,6 +32,9 @@ const mapStateToProps = (state, { match: { params } }) => {
     gameKnown,
     gameData,
     isFavorite,
+    isPinnedGame: state.games.pinnedGame
+      ? slug === state.games.pinnedGame.slug
+      : false,
     previousSearches,
     searchEngine: state.settings.defaultSearchEngine,
     getSearchURLforGame: (q) =>
@@ -36,15 +42,12 @@ const mapStateToProps = (state, { match: { params } }) => {
   };
 };
 
-// query: 'searchQuery',
-// dateSearched: Date,
-// searchEngine: SearchEngine,
-// url
-
 const mapDispatchToProps = (dispatch) => ({
   loadGame: (slug) => dispatch(loadGameData(slug)),
   setSelectedGame: (slug) => dispatch(setSelectedGame({ slug })),
   toggleIsFavorite: (slug) => dispatch(toggleFavorite(slug)),
+  setPinnedGame: (game) => dispatch(setPinnedGameAction(game)),
+  clearPinnedGame: () => dispatch(unpinGame()),
   addSearch: (gameSlug, query, searchEngine, generatedUrl) =>
     dispatch(
       addSearchAction({
@@ -69,6 +72,9 @@ function GamePage({
   toggleIsFavorite,
   searchEngine,
   getSearchURLforGame,
+  setPinnedGame,
+  isPinnedGame,
+  clearPinnedGame,
   addSearch,
   previousSearches,
 }) {
@@ -103,14 +109,31 @@ function GamePage({
               {gameData.released && <p>Released {gameData.released}</p>}
               {gameData.metacritic && <p>Metacritic {gameData.metacritic}</p>}
             </div>
-            <div className="flex justify-center md:justify-start">
+            <div className="flex flex-col justify-center md:justify-start">
               <Button
                 selected={isFavorite}
-                onClick={() => toggleIsFavorite(slug)}
+                onClick={() => {
+                  if (isFavorite) {
+                    clearPinnedGame();
+                  }
+                  toggleIsFavorite(slug);
+                }}
                 className="text-sm hover:bg-white hover:text-black uppercase tracking-wider"
               >
                 {isFavorite ? "Remove from" : "Add to"} favorites
               </Button>
+              {isFavorite ? (
+                <Button
+                  selected={isPinnedGame}
+                  onClick={() =>
+                    isPinnedGame ? clearPinnedGame() : setPinnedGame(gameData)
+                  }
+                  className="text-sm hover:bg-white hover:text-black uppercase mt-4"
+                  title="Pinning a game will load this game when you first visit the website"
+                >
+                  {isPinnedGame ? "Remove Pin" : "Pin game"}
+                </Button>
+              ) : null}
             </div>
           </div>
           <div className="px-4 flex-1 flex flex-col">

@@ -73,14 +73,22 @@ function Menu({ className = "", children }: DropdownMenuProps) {
 
 Dropdown.Menu = Menu;
 
-interface DropdownMenuItemProps extends BaseProps {}
-function MenuItem({ children }: DropdownMenuItemProps) {
+interface DropdownMenuItemProps extends BaseProps {
+  onClick?: Function;
+}
+function MenuItem({ children, onClick }: DropdownMenuItemProps) {
   const ctx = React.useContext(DropdownContext);
   const menuItemClasses = cn(
     "hover:bg-white hover:text-black cursor-pointer px-4 py-2"
   );
   return (
-    <div className={menuItemClasses} onClick={() => ctx.toggleIsOpen()}>
+    <div className={menuItemClasses} onClick={() => {
+      if (typeof onClick === 'function') {
+        onClick();
+      }
+      ctx.toggleIsOpen();
+    }
+    }>
       {children}
     </div>
   );
