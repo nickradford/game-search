@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import SearchPage from "./pages/search";
 import GamePage from "./pages/game";
@@ -11,32 +11,42 @@ import { unpinGame as unpinGameAction } from "./redux/slices/games";
 
 import ImageTransition from "./components/image-transition";
 import { Header } from "./components/header";
+import { RAWGGame } from "./interfaces/game";
+import { CombinedStateStructure } from "./redux/store";
 
-const mapStateToProps = ({ games, favorites }) => {
-  let selectedGameImage;
 
-  let slug = games.selectedGameSlug;
-  let { pinnedGame } = games;
+interface StateProps {
+  selectedGameImage?: string;
+  favoriteGames: RAWGGame[];
+  pinnedGame: RAWGGame | null | undefined;
+}
 
-  if (slug && slug in games.byIds) {
-    selectedGameImage = games.byIds[slug].background_image;
-  }
+function App() {
+  const dispatch = useDispatch();
 
-  const favoriteGames = favorites.map((slug) => games.byIds[slug]).reverse();
+  const [backgroundImage, setBackgroundImage] = useState<string>();
 
-  return {
-    selectedGameImage,
-    favoriteGames,
-    pinnedGame,
-  };
-};
+  const {selectedGameImage, favoriteGames, pinnedGame} = useSelector<CombinedStateStructure, StateProps>(state => {
+    
+    let selectedGameImage;
 
-const mapDispatchToProps = (dispatch) => ({
-  unpinGame: () => dispatch(unpinGameAction()),
-});
+    let slug = state.games.selectedGameSlug;
+    let { pinnedGame } = state.games;
 
-function App({ selectedGameImage, favoriteGames, pinnedGame, unpinGame }) {
-  const [backgroundImage, setBackgroundImage] = useState();
+    if (slug && slug in state.games.byIds) {
+      selectedGameImage = state.games.byIds[slug].background_image;
+    }
+
+    const favoriteGames = state.favorites.map((slug:string) => state.games.byIds[slug]).reverse();
+
+    return {
+      selectedGameImage,
+      favoriteGames,
+      pinnedGame,
+    };
+  })
+
+  const unpinGame = () => dispatch(unpinGameAction())
 
   useEffect(() => {
     if (selectedGameImage) {
@@ -95,7 +105,7 @@ function App({ selectedGameImage, favoriteGames, pinnedGame, unpinGame }) {
             {pinnedGame ? (
               <Redirect to={`/games/${pinnedGame.slug}`} />
             ) : (
-              <SearchPage name={null} />
+              <SearchPage />
             )}
           </Route>
         </Switch>
@@ -118,4 +128,4 @@ function App({ selectedGameImage, favoriteGames, pinnedGame, unpinGame }) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

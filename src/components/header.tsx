@@ -9,7 +9,7 @@ import ImageTransition from "./image-transition";
 
 interface HeaderProps {
   onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  pinnedGame?: RAWGGame;
+  pinnedGame?: RAWGGame | null;
   unpinGame: Function;
   favorites?: RAWGGame[];
 }
