@@ -1,10 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 import { Button } from "../components/button";
-import { purge } from "../redux/store";
+import { purge, CombinedStateStructure } from "../redux/store";
 
 import {
   SearchEngines,
@@ -12,22 +12,7 @@ import {
   SettingsKeys,
 } from "../redux/slices/settings";
 
-const mapStateToProps = ({ settings }) => {
-  return { settings };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setDefaultSearchEngine: (engine) =>
-      dispatch(
-        setSettingValue({
-          key: SettingsKeys.DefaultSearchEngine,
-          value: engine,
-        })
-      ),
-  };
-};
-
-function Settings({ settings, setDefaultSearchEngine }) {
+export function SettingsPage() {
   function clearAllData() {
     confirmAlert({
       title: "Delete all data",
@@ -55,6 +40,21 @@ function Settings({ settings, setDefaultSearchEngine }) {
       },
     });
   }
+
+  const defaultSearchEngine = useSelector<CombinedStateStructure>(
+    (state) => state.settings.defaultSearchEngine
+  );
+
+  const dispatch = useDispatch();
+
+  const setDefaultSearchEngine = (engine: string) =>
+    dispatch(
+      setSettingValue({
+        key: SettingsKeys.DefaultSearchEngine,
+        value: engine,
+      })
+    );
+
   return (
     <div className="bg-black p-4 rounded bg-opacity-75 md:max-w-3xl m-auto prose w-full md:w-2/3 xl:w-1/2">
       <h1 className="italic">Settings</h1>
@@ -64,13 +64,13 @@ function Settings({ settings, setDefaultSearchEngine }) {
         <br />
         <Button
           className="mr-2"
-          selected={settings.defaultSearchEngine === SearchEngines.GOOGLE}
+          selected={defaultSearchEngine === SearchEngines.GOOGLE}
           onClick={() => setDefaultSearchEngine(SearchEngines.GOOGLE)}
         >
           {SearchEngines.GOOGLE}
         </Button>
         <Button
-          selected={settings.defaultSearchEngine === SearchEngines.DUCKDUCKGO}
+          selected={defaultSearchEngine === SearchEngines.DUCKDUCKGO}
           onClick={() => setDefaultSearchEngine(SearchEngines.DUCKDUCKGO)}
         >
           {SearchEngines.DUCKDUCKGO}
@@ -91,8 +91,3 @@ function Settings({ settings, setDefaultSearchEngine }) {
     </div>
   );
 }
-
-export const SettingsPage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Settings);

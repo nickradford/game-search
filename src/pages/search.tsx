@@ -2,49 +2,51 @@ import React, { useState, useEffect } from "react";
 import classnames from "classnames";
 import { useDebounce } from "use-debounce";
 import { useHistory, useParams } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SyncLoader } from "react-spinners";
-
-import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
 import { Helmet } from "react-helmet";
 
+import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
+
 import { setSelectedGame, addBatchGames } from "../redux/slices/games";
+import { CombinedStateStructure } from "../redux/store";
 import { GameCard } from "../components/game-card";
+import { RAWGGame } from "../interfaces/game";
 
-const mapStateToProps = (state) => {
-  const favoriteSlugs = [...state.favorites];
-  favoriteSlugs.reverse();
-
-  const favoriteGames = favoriteSlugs.map((slug) => {
-    if (slug in state.games.byIds) {
-      return state.games.byIds[slug];
-    }
-    return null;
-  });
-
-  favoriteGames.filter((g) => g != null);
-
-  return {
-    favoriteGames,
-  };
-};
-const mapDispatchToProps = (dispatch) => ({
-  selectGame: (game) => dispatch(setSelectedGame(game)),
-  addGamesToKnownGames: (games) => dispatch(addBatchGames(games)),
-});
-
-function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
+function Search() {
   const history = useHistory();
   const { name } = useParams();
 
   const [searchTerm, setSearchTerm] = useState(slugToString(name) || "");
   const [searching, setSearching] = useState(name !== "");
   const [debouncedSearchTerm] = useDebounce(searchTerm, 350);
-  const [allMatches, setAllMatches] = useState([]);
+  const [allMatches, setAllMatches] = useState<RAWGGame[]>([]);
+
+  const dispatch = useDispatch();
+
+  const favoriteGames = useSelector<CombinedStateStructure, RAWGGame[]>(
+    (state) => {
+      const favoriteSlugs = [...state.favorites];
+      favoriteSlugs.reverse();
+
+      const favoriteGames = favoriteSlugs
+        .map((slug) =>
+          slug in state.games.byIds ? state.games.byIds[slug] : null
+        )
+        .filter((g) => g != null) as RAWGGame[];
+      return favoriteGames;
+    }
+  );
+
+  const selectGame = (game: RAWGGame | null) => dispatch(setSelectedGame(game));
+  const addGamesToKnownGames = (games: RAWGGame[]) =>
+    dispatch(addBatchGames(games));
 
   useEffect(() => {
     selectGame(null);
-  }, [selectGame]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (name === undefined) {
       setAllMatches([]);
@@ -81,7 +83,8 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
     };
 
     search(debouncedSearchTerm);
-  }, [addGamesToKnownGames, debouncedSearchTerm, history]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchTerm, history]);
 
   const cn = classnames("flex-1 mt-8 sm:flex items-center flex-col", {
     "sm:flex-initial": allMatches.length === 0,
@@ -150,4 +153,4 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default Search;

@@ -1,6 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 
-
 import { getGameBySlug } from "../../util/rawg";
 import { RAWGGame } from "../../interfaces/game";
 
@@ -9,7 +8,7 @@ export interface GamesSliceState {
   pinnedGame: RAWGGame | null;
   allKnownGames: RAWGGame[];
   byIds: {
-    [key: string]: RAWGGame
+    [key: string]: RAWGGame;
   };
   loading: boolean;
   searches: {
@@ -18,13 +17,13 @@ export interface GamesSliceState {
         query: string;
         searchEngine: string;
         url: string;
-        dateSearched: Date,
+        dateSearched: Date;
       }
-    ]
-  }
+    ];
+  };
 }
 
-const initialState :GamesSliceState= {
+const initialState: GamesSliceState = {
   selectedGameSlug: null,
   pinnedGame: null,
   allKnownGames: [],
@@ -60,7 +59,7 @@ export const gamesSlice = createSlice({
         ),
       },
     }),
-    setSelectedGame: (state, action) => ({
+    setSelectedGame: (state, action: PayloadAction<RAWGGame | null>) => ({
       ...state,
       selectedGameSlug: action.payload ? action.payload.slug : null,
     }),
@@ -102,7 +101,6 @@ export const {
   unpinGame,
   addSearch,
 } = gamesSlice.actions;
-
 
 export function loadGameData(slug: string) {
   return async (dispatch: Dispatch) => {

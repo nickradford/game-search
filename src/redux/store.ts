@@ -23,10 +23,16 @@ export const rootReducer = combineReducers({
   settings: settingsSlice.reducer,
 });
 
-type CombinedReducers = CombinedState<{ games: GamesSliceState; favorites: FavoritesSliceState; settings: SettingsSliceState; }>
+export type CombinedStateStructure = CombinedState<{
+  games: GamesSliceState;
+  favorites: FavoritesSliceState;
+  settings: SettingsSliceState;
+}>;
 
-
-const persistedReducer = persistReducer<CombinedReducers>(persistConfig, rootReducer);
+const persistedReducer = persistReducer<CombinedStateStructure>(
+  persistConfig,
+  rootReducer
+);
 
 export const store = configureStore({
   reducer: persistedReducer,

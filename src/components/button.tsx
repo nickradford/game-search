@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  selected: boolean;
+  selected?: boolean;
 }
 
 export const Button = (props: ButtonProps) => {
