@@ -3,6 +3,7 @@ import { getGameBySlug } from "../../util/rawg";
 
 const initialState = {
   selectedGameSlug: null,
+  pinnedGame: null,
   allKnownGames: [],
   byIds: {},
   loading: false,
@@ -40,6 +41,14 @@ export const gamesSlice = createSlice({
       ...state,
       selectedGameSlug: action.payload ? action.payload.slug : null,
     }),
+    setPinnedGame: (state, action) => ({
+      ...state,
+      pinnedGame: action.payload,
+    }),
+    unpinGame: (state) => ({
+      ...state,
+      pinnedGame: null,
+    }),
     addSearch: (state, action) => {
       const prevSearches = state.searchs ? state.searches : {};
       const prevGameSearches =
@@ -66,6 +75,8 @@ export const {
   loadGameDataStart,
   loadGameDataSuccess,
   setSelectedGame,
+  setPinnedGame,
+  unpinGame,
   addSearch,
 } = gamesSlice.actions;
 

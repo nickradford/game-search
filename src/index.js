@@ -12,6 +12,8 @@ import * as serviceWorker from "./serviceWorker";
 
 // const store = configureStore();
 
+persistor.persist();
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>
