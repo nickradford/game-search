@@ -1,11 +1,13 @@
+import { RAWGGame } from "../interfaces/game";
+
 const HEADERS = {
   "User-Agent": "gamesearch.nickradford.dev",
 };
 const BASE_URL = "https://api.rawg.io/api";
 
-const inFlightSearches = [];
+const inFlightSearches : AbortController[] = [];
 
-export const formatSearchTerm = (term) => {
+export const formatSearchTerm = (term: string) => {
   return term.trim().replace(/\s/gi, "+");
 };
 
@@ -13,7 +15,7 @@ export const slugToString = (slug = "") => {
   return slug.trim().replace(/\+/g, " ");
 };
 
-export const getGameBySlug = async (slug) => {
+export const getGameBySlug = async (slug: string) => {
   const url = `${BASE_URL}/games/${slug}`;
 
   const res = await fetch(url, { headers: HEADERS });
@@ -23,7 +25,7 @@ export const getGameBySlug = async (slug) => {
 };
 
 export const searchForGame = async (
-  title,
+  title : string,
   queryParams = "",
   cancelPreviousSearches = false
 ) => {
@@ -47,7 +49,7 @@ export const searchForGame = async (
   return [exact, data.results];
 };
 
-export const findGameByTitle = (title, games) => {
+export const findGameByTitle = (title: string, games: RAWGGame[]) => {
   const lowerTitle = title.toLowerCase();
 
   const matches = games.filter((g) => g.name.toLowerCase() === lowerTitle);
