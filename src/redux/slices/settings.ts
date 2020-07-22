@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { SearchEngineKeys } from "../../util/search.util";
 
 export const SettingsKeys = {
   DefaultSearchEngine: "defaultSearchEngine",
@@ -10,11 +11,11 @@ export const SearchEngines = {
 };
 
 export interface SettingsSliceState {
-  defaultSearchEngine: string;
+  defaultSearchEngine: SearchEngineKeys;
 }
 
 const initialState: SettingsSliceState = {
-  defaultSearchEngine: SearchEngines.GOOGLE,
+  defaultSearchEngine: "Google",
 };
 
 export const settingsSlice = createSlice({

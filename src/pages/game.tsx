@@ -1,53 +1,85 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { useState, useEffect, useCallback } from "react";
+import { withRouter, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { Helmet } from "react-helmet";
 import TimeAgo from "react-timeago";
 
-import { getSearchURL } from "../util/search.util";
+import { getSearchURL, SearchEngineKeys } from "../util/search.util";
 import { Button } from "../components/button";
 import {
-  setSelectedGame,
+  setSelectedGame as setSelectedGameAction,
   loadGameData,
   addSearch as addSearchAction,
   setPinnedGame as setPinnedGameAction,
   unpinGame,
 } from "../redux/slices/games";
 import { toggleFavorite } from "../redux/slices/favorites";
+import { CombinedStateStructure } from "../redux/store";
+import { RAWGGame } from "../interfaces/game";
 
-const safeWindowOpen = (url) =>
+const safeWindowOpen = (url: string) =>
   window.open(url, "_blank", "noopener noreferrer");
 
-const mapStateToProps = (state, { match: { params } }) => {
-  const slug = params.slug;
-  const gameKnown = slug in state.games.byIds;
-  const gameData = gameKnown ? state.games.byIds[slug] : null;
-  const isFavorite = state.favorites.indexOf(slug) !== -1;
-  const previousSearches =
-    slug in state.games.searches ? state.games.searches[slug] : [];
+interface Search {
+  query: string;
+  url: string;
+  dateSearched: Date;
+}
+interface StateProps {
+  gameKnown: boolean;
+  gameData: RAWGGame | null;
+  isFavorite: boolean;
+  isPinnedGame: boolean;
+  previousSearches: Search[];
+  searchEngine: SearchEngineKeys;
+}
 
-  return {
-    slug,
+function GamePage() {
+  const { slug } = useParams();
+  const dispatch = useDispatch();
+
+  const selector = (state: CombinedStateStructure) => {
+    const gameKnown = slug in state.games.byIds;
+    const gameData = gameKnown ? state.games.byIds[slug] : null;
+    const isFavorite = state.favorites.indexOf(slug) !== -1;
+    const previousSearches: Search[] =
+      slug in state.games.searches ? state.games.searches[slug] : [];
+    const isPinnedGame = state.games.pinnedGame
+      ? slug === state.games.pinnedGame.slug
+      : false;
+    const searchEngine = state.settings.defaultSearchEngine;
+
+    return {
+      gameKnown,
+      gameData,
+      isFavorite,
+      isPinnedGame,
+      previousSearches,
+      searchEngine,
+    };
+  };
+
+  const {
     gameKnown,
     gameData,
     isFavorite,
-    isPinnedGame: state.games.pinnedGame
-      ? slug === state.games.pinnedGame.slug
-      : false,
+    isPinnedGame,
     previousSearches,
-    searchEngine: state.settings.defaultSearchEngine,
-    getSearchURLforGame: (q) =>
-      getSearchURL(gameData.name, q, state.settings.defaultSearchEngine),
-  };
-};
+    searchEngine,
+  } = useSelector<CombinedStateStructure, StateProps>(selector);
 
-const mapDispatchToProps = (dispatch) => ({
-  loadGame: (slug) => dispatch(loadGameData(slug)),
-  setSelectedGame: (slug) => dispatch(setSelectedGame({ slug })),
-  toggleIsFavorite: (slug) => dispatch(toggleFavorite(slug)),
-  setPinnedGame: (game) => dispatch(setPinnedGameAction(game)),
-  clearPinnedGame: () => dispatch(unpinGame()),
-  addSearch: (gameSlug, query, searchEngine, generatedUrl) =>
+  const loadGame = (slug: string) => dispatch(loadGameData(slug));
+  const setSelectedGame = (slug: string) =>
+    dispatch(setSelectedGameAction({ slug }));
+  const toggleIsFavorite = (slug: string) => dispatch(toggleFavorite(slug));
+  const setPinnedGame = (game: RAWGGame) => dispatch(setPinnedGameAction(game));
+  const clearPinnedGame = () => dispatch(unpinGame());
+  const addSearch = (
+    gameSlug: string,
+    query: string,
+    searchEngine: SearchEngineKeys,
+    generatedUrl: string
+  ) =>
     dispatch(
       addSearchAction({
         gameSlug,
@@ -58,25 +90,11 @@ const mapDispatchToProps = (dispatch) => ({
           dateSearched: Date.now(),
         },
       })
-    ),
-});
+    );
 
-function GamePage({
-  slug,
-  gameKnown,
-  gameData,
-  loadGame,
-  setSelectedGame,
-  isFavorite,
-  toggleIsFavorite,
-  searchEngine,
-  getSearchURLforGame,
-  setPinnedGame,
-  isPinnedGame,
-  clearPinnedGame,
-  addSearch,
-  previousSearches,
-}) {
+  const getSearchURLforGame = (q: string) =>
+    getSearchURL(gameData!.name, q, searchEngine);
+
   const [loading, setLoading] = useState(!gameKnown);
   const [searchValue, setSearchValue] = useState("");
 
@@ -87,9 +105,10 @@ function GamePage({
       setLoading(!gameKnown);
       setSelectedGame(slug);
     }
-  }, [gameKnown, loadGame, setSelectedGame, slug]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameKnown, slug]);
 
-  if (loading) {
+  if (loading || !gameData) {
     return null;
   }
 
@@ -187,6 +206,4 @@ function GamePage({
   );
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(GamePage)
-);
+export default withRouter(GamePage);

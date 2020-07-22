@@ -59,7 +59,7 @@ export const gamesSlice = createSlice({
         ),
       },
     }),
-    setSelectedGame: (state, action: PayloadAction<RAWGGame | null>) => ({
+    setSelectedGame: (state, action: PayloadAction<RAWGGame | { slug: string } | null>) => ({
       ...state,
       selectedGameSlug: action.payload ? action.payload.slug : null,
     }),
