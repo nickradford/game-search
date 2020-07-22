@@ -6,6 +6,7 @@ import TimeAgo from "react-timeago";
 
 import { getSearchURL, SearchEngineKeys } from "../util/search.util";
 import { Button } from "../components/button";
+import { setBackgroundUrl } from '../redux/slices/application';
 import {
   setSelectedGame as setSelectedGameAction,
   loadGameData,
@@ -59,6 +60,8 @@ function GamePage() {
     };
   };
 
+
+
   const {
     gameKnown,
     gameData,
@@ -67,6 +70,13 @@ function GamePage() {
     previousSearches,
     searchEngine,
   } = useSelector<CombinedStateStructure, StateProps>(selector);
+
+  // Sets the application background once the gameData is loaded
+  useEffect(() => {
+    if (gameData) {
+      dispatch(setBackgroundUrl(gameData.background_image))
+    }
+  }, [dispatch, gameData])
 
   const loadGame = (slug: string) => dispatch(loadGameData(slug));
   const setSelectedGame = (slug: string) =>

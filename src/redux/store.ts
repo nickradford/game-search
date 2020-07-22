@@ -5,8 +5,9 @@ import { persistStore, persistReducer } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import localForage from "localforage";
 
-import { gamesSlice, GamesSliceState } from "./slices/games";
+import { applicationSlice, ApplicationSliceState } from './slices/application';
 import { favoritesSlice, FavoritesSliceState } from "./slices/favorites";
+import { gamesSlice, GamesSliceState } from "./slices/games";
 import { settingsSlice, SettingsSliceState } from "./slices/settings";
 
 const persistConfig = {
@@ -18,12 +19,14 @@ const persistConfig = {
 export { localForage as storage };
 
 export const rootReducer = combineReducers({
+  application: applicationSlice.reducer,
   games: gamesSlice.reducer,
   favorites: favoritesSlice.reducer,
   settings: settingsSlice.reducer,
 });
 
 export type CombinedStateStructure = CombinedState<{
+  application: ApplicationSliceState;
   games: GamesSliceState;
   favorites: FavoritesSliceState;
   settings: SettingsSliceState;
@@ -39,7 +42,7 @@ export const store = configureStore({
   middleware: [thunk],
 });
 
-const slices = [gamesSlice, favoritesSlice, settingsSlice];
+const slices = [applicationSlice, favoritesSlice, gamesSlice, settingsSlice];
 
 export const purge = () => {
   persistor.pause();
