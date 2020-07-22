@@ -1,7 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getGameBySlug } from "../../util/rawg";
+import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+
+import { getGameBySlug } from "../../util/rawg";
+import { RAWGGame } from "../../interfaces/game";
+
+export interface GamesSliceState {
+  selectedGameSlug: string | null;
+  pinnedGame: RAWGGame | null;
+  allKnownGames: RAWGGame[];
+  byIds: {
+    [key: string]: RAWGGame
+  };
+  loading: boolean;
+  searches: {
+    [slug: string]: [
+      {
+        query: string;
+        searchEngine: string;
+        url: string;
+        dateSearched: Date,
+      }
+    ]
+  }
+}
+
+const initialState :GamesSliceState= {
   selectedGameSlug: null,
   pinnedGame: null,
   allKnownGames: [],
@@ -27,7 +50,7 @@ export const gamesSlice = createSlice({
       },
       allKnownGames: [...state.allKnownGames, action.payload],
     }),
-    addBatchGames: (state, action) => ({
+    addBatchGames: (state, action: PayloadAction<RAWGGame[]>) => ({
       ...state,
       byIds: {
         ...state.byIds,
@@ -50,7 +73,7 @@ export const gamesSlice = createSlice({
       pinnedGame: null,
     }),
     addSearch: (state, action) => {
-      const prevSearches = state.searchs ? state.searches : {};
+      const prevSearches = state.searches ? state.searches : {};
       const prevGameSearches =
         action.payload.gameSlug in state.searches
           ? state.searches[action.payload.gameSlug]
@@ -80,8 +103,9 @@ export const {
   addSearch,
 } = gamesSlice.actions;
 
-export function loadGameData(slug) {
-  return async (dispatch) => {
+
+export function loadGameData(slug: string) {
+  return async (dispatch: Dispatch) => {
     console.log("thunk", slug);
 
     await dispatch(loadGameDataStart());

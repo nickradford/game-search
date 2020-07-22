@@ -1,8 +1,10 @@
+export type RAWGGameSlug = string;
+
 interface RAWGGamePlatform {
   platform: {
     id: number;
     name: string;
-    slug: string;
+    slug: RAWGGameSlug;
   }
 }
 

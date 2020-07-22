@@ -9,9 +9,14 @@ export const SearchEngines = {
   DUCKDUCKGO: "DuckDuckGo",
 };
 
-const initialState = {
+export interface SettingsSliceState {
+  defaultSearchEngine: string;
+}
+
+const initialState: SettingsSliceState = {
   defaultSearchEngine: SearchEngines.GOOGLE,
 };
+
 
 export const settingsSlice = createSlice({
   name: "settings",

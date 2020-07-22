@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import { combineReducers } from "redux";
+import { combineReducers, CombinedState } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import localForage from "localforage";
 
-import { gamesSlice } from "./slices/games";
-import { favoritesSlice } from "./slices/favorites";
-import { settingsSlice } from "./slices/settings";
+import { gamesSlice, GamesSliceState } from "./slices/games";
+import { favoritesSlice, FavoritesSliceState } from "./slices/favorites";
+import { settingsSlice, SettingsSliceState } from "./slices/settings";
 
 const persistConfig = {
   key: "root",
@@ -23,7 +23,10 @@ export const rootReducer = combineReducers({
   settings: settingsSlice.reducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+type CombinedReducers = CombinedState<{ games: GamesSliceState; favorites: FavoritesSliceState; settings: SettingsSliceState; }>
+
+
+const persistedReducer = persistReducer<CombinedReducers>(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -39,5 +42,6 @@ export const purge = () => {
 };
 
 export const persistor = persistStore(store, {
+  // @ts-ignore until https://github.com/rt2zz/redux-persist/pull/1185 is merged and released
   manualPersist: true,
 });
