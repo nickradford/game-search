@@ -11,7 +11,6 @@ import {
   loadGameData,
   addSearch as addSearchAction,
   setPinnedGame as setPinnedGameAction,
-  setPinnedGame,
   unpinGame,
 } from "../redux/slices/games";
 import { toggleFavorite } from "../redux/slices/favorites";

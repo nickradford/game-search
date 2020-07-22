@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import classnames from "classnames";
 import { useDebounce } from "use-debounce";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { SyncLoader } from "react-spinners";
 
@@ -19,7 +19,10 @@ const mapStateToProps = (state) => {
     if (slug in state.games.byIds) {
       return state.games.byIds[slug];
     }
+    return null;
   });
+
+  favoriteGames.filter((g) => g != null);
 
   return {
     favoriteGames,
@@ -35,7 +38,6 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
   const { name } = useParams();
 
   const [searchTerm, setSearchTerm] = useState(slugToString(name) || "");
-  const [hasSearched, setHasSearched] = useState(false);
   const [searching, setSearching] = useState(name !== "");
   const [debouncedSearchTerm] = useDebounce(searchTerm, 350);
   const [allMatches, setAllMatches] = useState([]);
@@ -101,7 +103,7 @@ function Search({ selectGame, addGamesToKnownGames, favoriteGames }) {
           </label>
           <input
             id="game-title"
-            className="text-black rounded w-full mt-4 px-4 py-2"
+            className="text-black rounded w-full mt-4 px-4 py-2 text-xl shadow-2xl"
             placeholder="Cyberpunk 2077"
             inputMode="search"
             name="game"
