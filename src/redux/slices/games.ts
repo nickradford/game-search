@@ -1,5 +1,7 @@
 import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 
+import { v4 as generateID } from "uuid";
+
 import { getGameBySlug } from "../../util/rawg";
 import { RAWGGame } from "../../interfaces/game";
 
@@ -14,6 +16,7 @@ export interface GamesSliceState {
   searches: {
     [slug: string]: [
       {
+        id: string;
         query: string;
         searchEngine: string;
         url: string;
@@ -59,7 +62,10 @@ export const gamesSlice = createSlice({
         ),
       },
     }),
-    setSelectedGame: (state, action: PayloadAction<RAWGGame | { slug: string } | null>) => ({
+    setSelectedGame: (
+      state,
+      action: PayloadAction<RAWGGame | { slug: string } | null>
+    ) => ({
       ...state,
       selectedGameSlug: action.payload ? action.payload.slug : null,
     }),
@@ -82,8 +88,11 @@ export const gamesSlice = createSlice({
         searches: {
           ...prevSearches,
           [action.payload.gameSlug]: [
-            action.payload.search,
             ...prevGameSearches,
+            {
+              ...action.payload.search,
+              id: generateID(),
+            },
           ],
         },
       };

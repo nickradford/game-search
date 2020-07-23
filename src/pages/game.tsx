@@ -22,10 +22,12 @@ const safeWindowOpen = (url: string) =>
   window.open(url, "_blank", "noopener noreferrer");
 
 interface Search {
+  id: string;
   query: string;
   url: string;
   dateSearched: Date;
 }
+
 interface StateProps {
   gameKnown: boolean;
   gameData: RAWGGame | null;
@@ -44,7 +46,7 @@ function GamePage() {
     const gameData = gameKnown ? state.games.byIds[slug] : null;
     const isFavorite = state.favorites.indexOf(slug) !== -1;
     const previousSearches: Search[] =
-      slug in state.games.searches ? state.games.searches[slug] : [];
+      slug in state.games.searches ? [...state.games.searches[slug]].reverse() : [];
     const isPinnedGame = state.games.pinnedGame
       ? slug === state.games.pinnedGame.slug
       : false;
@@ -198,7 +200,7 @@ function GamePage() {
                 {previousSearches.map((search) => (
                   <a
                     className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer flex justify-between"
-                    key={search.url}
+                    key={search.id}
                     href={search.url}
                     target="_blank"
                     rel="noreferrer noopener"
