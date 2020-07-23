@@ -1,18 +1,18 @@
-import { RAWGGame } from "../interfaces/game";
+import { RAWGGame } from '../interfaces/game';
 
 const HEADERS = {
-  "User-Agent": "gamesearch.nickradford.dev",
+  'User-Agent': 'gamesearch.nickradford.dev',
 };
-const BASE_URL = "https://api.rawg.io/api";
+const BASE_URL = 'https://api.rawg.io/api';
 
-const inFlightSearches : AbortController[] = [];
+const inFlightSearches: AbortController[] = [];
 
 export const formatSearchTerm = (term: string) => {
-  return term.trim().replace(/\s/gi, "+");
+  return term.trim().replace(/\s/gi, '+');
 };
 
-export const slugToString = (slug = "") => {
-  return slug.trim().replace(/\+/g, " ");
+export const slugToString = (slug = '') => {
+  return slug.trim().replace(/\+/g, ' ');
 };
 
 export const getGameBySlug = async (slug: string) => {
@@ -24,14 +24,8 @@ export const getGameBySlug = async (slug: string) => {
   return data;
 };
 
-export const searchForGame = async (
-  title : string,
-  queryParams = "",
-  cancelPreviousSearches = false
-) => {
-  const url = `${BASE_URL}/games?search=${title}${
-    queryParams && `&${queryParams}`
-  }`;
+export const searchForGame = async (title: string, queryParams = '', cancelPreviousSearches = false) => {
+  const url = `${BASE_URL}/games?search=${title}${queryParams && `&${queryParams}`}`;
 
   if (cancelPreviousSearches) {
     inFlightSearches.forEach((controller) => controller.abort());

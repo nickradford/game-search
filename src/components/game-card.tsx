@@ -1,15 +1,13 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 
-import { RAWGGame } from "../interfaces/game";
-import ImageTransition from "./image-transition";
+import { RAWGGame } from '../interfaces/game';
+import ImageTransition from './image-transition';
 
 interface GameCardProps {
   game: RAWGGame;
   loadingColor?: string;
-  onClick?:
-    | ((event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void)
-    | undefined;
+  onClick?: ((event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void) | undefined;
 }
 
 export const GameCard = ({ game, onClick, loadingColor }: GameCardProps) => {
@@ -24,13 +22,11 @@ export const GameCard = ({ game, onClick, loadingColor }: GameCardProps) => {
       }}
     >
       <ImageTransition
-        loadingColor={loadingColor || "#1a202c"}
+        loadingColor={loadingColor || '#1a202c'}
         src={game.background_image}
-        style={{ height: "inherit", width: "inherit" }}
+        style={{ height: 'inherit', width: 'inherit' }}
       />
-      <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-gray-900 bg-opacity-75 z-20">
-        {game.name}
-      </span>
+      <span className="absolute bottom-0 left-0 right-0 py-1 px-2 bg-gray-900 bg-opacity-75 z-20">{game.name}</span>
     </Link>
   );
 };

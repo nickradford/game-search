@@ -1,23 +1,18 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import { Button } from "../components/button";
-import { purge, CombinedStateStructure } from "../redux/store";
+import { Button } from '../components/button';
+import { purge, CombinedStateStructure } from '../redux/store';
 
-import {
-  SearchEngines,
-  setSettingValue,
-  SettingsKeys,
-} from "../redux/slices/settings";
+import { SearchEngines, setSettingValue, SettingsKeys } from '../redux/slices/settings';
 
 export function SettingsPage() {
   function clearAllData() {
     confirmAlert({
-      title: "Delete all data",
-      message:
-        "All of your favorites and previous searches will be deleted. Are you sure?",
+      title: 'Delete all data',
+      message: 'All of your favorites and previous searches will be deleted. Are you sure?',
       customUI: ({ title, message, onClose }) => {
         return (
           <div className="bg-black rounded prose p-4">
@@ -41,9 +36,7 @@ export function SettingsPage() {
     });
   }
 
-  const defaultSearchEngine = useSelector<CombinedStateStructure>(
-    (state) => state.settings.defaultSearchEngine
-  );
+  const defaultSearchEngine = useSelector<CombinedStateStructure>((state) => state.settings.defaultSearchEngine);
 
   const dispatch = useDispatch();
 
@@ -78,14 +71,8 @@ export function SettingsPage() {
       </div>
 
       <h3 className="text-white">Manage Data</h3>
-      <p>
-        All of your favorites and searches are saved in your browser's
-        localstorage.
-      </p>
-      <Button
-        className="uppercase border-red-700 text-red-700"
-        onClick={clearAllData}
-      >
+      <p>All of your favorites and searches are saved in your browser's localstorage.</p>
+      <Button className="uppercase border-red-700 text-red-700" onClick={clearAllData}>
         Clear all data
       </Button>
     </div>

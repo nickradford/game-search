@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import { PushPin } from './pushpin';
 import { LogoOutline } from './logo';
-import { RAWGGame } from "../interfaces/game";
-import { Dropdown } from "./dropdown";
-import ImageTransition from "./image-transition";
+import { RAWGGame } from '../interfaces/game';
+import { Dropdown } from './dropdown';
+import ImageTransition from './image-transition';
 
 interface HeaderProps {
   onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
@@ -28,30 +28,32 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
         </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center text-gray-300">
           {/* <a className="mr-5 hover:text-white">First Link</a> */}
-          {pinnedGame ? <Dropdown className='mr-5'>
-            <Dropdown.Label><span className='flex items-center'><PushPin className='w-4 mr-4 transform -rotate-90'/><span>{pinnedGame.name}</span></span></Dropdown.Label>
-            <Dropdown.Menu>
-              <Dropdown.MenuItem onClick={unpinGame}>Unpin</Dropdown.MenuItem>
-            </Dropdown.Menu>
-          </Dropdown>: null}
+          {pinnedGame ? (
+            <Dropdown className="mr-5">
+              <Dropdown.Label>
+                <span className="flex items-center">
+                  <PushPin className="w-4 mr-4 transform -rotate-90" />
+                  <span>{pinnedGame.name}</span>
+                </span>
+              </Dropdown.Label>
+              <Dropdown.Menu>
+                <Dropdown.MenuItem onClick={unpinGame}>Unpin</Dropdown.MenuItem>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : null}
           {favorites!.length ? (
             <Dropdown className="mr-5">
               <Dropdown.Label>Favorites</Dropdown.Label>
               <Dropdown.Menu>
                 {favorites.map((game) => (
                   <Dropdown.MenuItem>
-                    <Link
-                      to={`/games/${game.slug}`}
-                      className="flex items-center"
-                    >
+                    <Link to={`/games/${game.slug}`} className="flex items-center">
                       <ImageTransition
                         src={game.background_image}
                         className="box-border flex-shrink-0"
-                        style={{ width: "80px", height: "45px" }}
+                        style={{ width: '80px', height: '45px' }}
                       />
-                      <span className="md:whitespace-no-wrap ml-4">
-                        {game.name}
-                      </span>
+                      <span className="md:whitespace-no-wrap ml-4">{game.name}</span>
                     </Link>
                   </Dropdown.MenuItem>
                 ))}

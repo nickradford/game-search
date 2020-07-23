@@ -1,46 +1,41 @@
-import React, { useState, useEffect } from "react";
-import classnames from "classnames";
-import { useDebounce } from "use-debounce";
-import { useHistory, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { SyncLoader } from "react-spinners";
-import { Helmet } from "react-helmet";
+import React, { useState, useEffect } from 'react';
+import classnames from 'classnames';
+import { useDebounce } from 'use-debounce';
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { SyncLoader } from 'react-spinners';
+import { Helmet } from 'react-helmet';
 
-import { searchForGame, formatSearchTerm, slugToString } from "../util/rawg";
+import { searchForGame, formatSearchTerm, slugToString } from '../util/rawg';
 
-import { setSelectedGame, addBatchGames } from "../redux/slices/games";
-import { CombinedStateStructure } from "../redux/store";
-import { GameCard } from "../components/game-card";
-import { RAWGGame } from "../interfaces/game";
+import { setSelectedGame, addBatchGames } from '../redux/slices/games';
+import { CombinedStateStructure } from '../redux/store';
+import { GameCard } from '../components/game-card';
+import { RAWGGame } from '../interfaces/game';
 
 function Search() {
   const history = useHistory();
   const { name } = useParams();
 
-  const [searchTerm, setSearchTerm] = useState(slugToString(name) || "");
-  const [searching, setSearching] = useState(name !== "");
+  const [searchTerm, setSearchTerm] = useState(slugToString(name) || '');
+  const [searching, setSearching] = useState(name !== '');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 350);
   const [allMatches, setAllMatches] = useState<RAWGGame[]>([]);
 
   const dispatch = useDispatch();
 
-  const favoriteGames = useSelector<CombinedStateStructure, RAWGGame[]>(
-    (state) => {
-      const favoriteSlugs = [...state.favorites];
-      favoriteSlugs.reverse();
+  const favoriteGames = useSelector<CombinedStateStructure, RAWGGame[]>((state) => {
+    const favoriteSlugs = [...state.favorites];
+    favoriteSlugs.reverse();
 
-      const favoriteGames = favoriteSlugs
-        .map((slug) =>
-          slug in state.games.byIds ? state.games.byIds[slug] : null
-        )
-        .filter((g) => g != null) as RAWGGame[];
-      return favoriteGames;
-    }
-  );
+    const favoriteGames = favoriteSlugs
+      .map((slug) => (slug in state.games.byIds ? state.games.byIds[slug] : null))
+      .filter((g) => g != null) as RAWGGame[];
+    return favoriteGames;
+  });
 
   const selectGame = (game: RAWGGame | null) => dispatch(setSelectedGame(game));
-  const addGamesToKnownGames = (games: RAWGGame[]) =>
-    dispatch(addBatchGames(games));
+  const addGamesToKnownGames = (games: RAWGGame[]) => dispatch(addBatchGames(games));
 
   useEffect(() => {
     selectGame(null);
@@ -50,13 +45,13 @@ function Search() {
   useEffect(() => {
     if (name === undefined) {
       setAllMatches([]);
-      setSearchTerm("");
+      setSearchTerm('');
     }
   }, [name]);
 
   useEffect(() => {
-    const search = async (searchTerm = "") => {
-      if (searchTerm === "") {
+    const search = async (searchTerm = '') => {
+      if (searchTerm === '') {
         setSearching(false);
         setAllMatches([]);
         return;
@@ -65,11 +60,7 @@ function Search() {
       setSearching(true);
 
       try {
-        let [, allMatches] = await searchForGame(
-          searchTerm,
-          "exclude_additions",
-          true
-        );
+        let [, allMatches] = await searchForGame(searchTerm, 'exclude_additions', true);
         setAllMatches(allMatches);
         addGamesToKnownGames(allMatches);
 
@@ -86,8 +77,8 @@ function Search() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchTerm, history]);
 
-  const cn = classnames("flex-1 mt-8 sm:flex items-center flex-col", {
-    "sm:flex-initial": allMatches.length === 0,
+  const cn = classnames('flex-1 mt-8 sm:flex items-center flex-col', {
+    'sm:flex-initial': allMatches.length === 0,
   });
 
   return (
@@ -118,9 +109,7 @@ function Search() {
             autoFocus
           />
         </form>
-        <div className="mt-6 h-6 flex justify-center">
-          {searching && <SyncLoader color="white" size="8px" />}
-        </div>
+        <div className="mt-6 h-6 flex justify-center">{searching && <SyncLoader color="white" size="8px" />}</div>
         <div className="flex flex-row w-full px-8 mt-8 flex-wrap m-auto items-center justify-center">
           {allMatches.map((match) => (
             <GameCard

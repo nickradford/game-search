@@ -1,14 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import "./tailwind.generated.css";
-import App from "./App";
-import { store, persistor } from "./redux/store";
+import './tailwind.generated.css';
+import App from './App';
+import { store, persistor } from './redux/store';
 
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorker from './serviceWorker';
 
 persistor.persist();
 
@@ -22,7 +22,7 @@ ReactDOM.render(
       </Provider>
     </Router>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

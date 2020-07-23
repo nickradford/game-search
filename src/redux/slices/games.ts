@@ -1,9 +1,9 @@
-import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 
-import { v4 as generateID } from "uuid";
+import { v4 as generateID } from 'uuid';
 
-import { getGameBySlug } from "../../util/rawg";
-import { RAWGGame } from "../../interfaces/game";
+import { getGameBySlug } from '../../util/rawg';
+import { RAWGGame } from '../../interfaces/game';
 
 export interface GamesSliceState {
   selectedGameSlug: string | null;
@@ -36,7 +36,7 @@ const initialState: GamesSliceState = {
 };
 
 export const gamesSlice = createSlice({
-  name: "games",
+  name: 'games',
   initialState,
   reducers: {
     PURGE: () => initialState,
@@ -56,16 +56,10 @@ export const gamesSlice = createSlice({
       ...state,
       byIds: {
         ...state.byIds,
-        ...action.payload.reduce(
-          (prev, curr) => ({ ...prev, [curr.slug]: curr }),
-          {}
-        ),
+        ...action.payload.reduce((prev, curr) => ({ ...prev, [curr.slug]: curr }), {}),
       },
     }),
-    setSelectedGame: (
-      state,
-      action: PayloadAction<RAWGGame | { slug: string } | null>
-    ) => ({
+    setSelectedGame: (state, action: PayloadAction<RAWGGame | { slug: string } | null>) => ({
       ...state,
       selectedGameSlug: action.payload ? action.payload.slug : null,
     }),
@@ -79,10 +73,7 @@ export const gamesSlice = createSlice({
     }),
     addSearch: (state, action) => {
       const prevSearches = state.searches ? state.searches : {};
-      const prevGameSearches =
-        action.payload.gameSlug in state.searches
-          ? state.searches[action.payload.gameSlug]
-          : [];
+      const prevGameSearches = action.payload.gameSlug in state.searches ? state.searches[action.payload.gameSlug] : [];
       return {
         ...state,
         searches: {
@@ -113,7 +104,7 @@ export const {
 
 export function loadGameData(slug: string) {
   return async (dispatch: Dispatch) => {
-    console.log("thunk", slug);
+    console.log('thunk', slug);
 
     await dispatch(loadGameDataStart());
     const game = await getGameBySlug(slug);

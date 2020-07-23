@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RAWGGameSlug } from "../../interfaces/game";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RAWGGameSlug } from '../../interfaces/game';
 
 export type FavoritesSliceState = RAWGGameSlug[];
 
-const initialState : FavoritesSliceState = [];
+const initialState: FavoritesSliceState = [];
 
 export const favoritesSlice = createSlice({
-  name: "favorites",
+  name: 'favorites',
   initialState,
   reducers: {
     PURGE: () => initialState,

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, CSSProperties } from "react";
-import { Transition } from "react-transition-group";
+import React, { useState, useEffect, useRef, CSSProperties } from 'react';
+import { Transition } from 'react-transition-group';
 
 const absolute: CSSProperties = {
-  position: "absolute",
+  position: 'absolute',
   top: 0,
   right: 0,
   bottom: 0,
@@ -30,7 +30,7 @@ interface ImageTransitionProps {
   loadingColor?: string;
 }
 
-type TransitionStates = "entering" | "entered" | "exiting" | "exited";
+type TransitionStates = 'entering' | 'entered' | 'exiting' | 'exited';
 
 export default function ImageTransition(props: ImageTransitionProps) {
   const [currentImage, setCurrentImage] = useState<string | undefined>();
@@ -52,7 +52,7 @@ export default function ImageTransition(props: ImageTransitionProps) {
     };
   }, [currentImage, props.src]);
   return (
-    <div className={props.className} style={{ position: "relative", height: "100%", ...props.style }}>
+    <div className={props.className} style={{ position: 'relative', height: '100%', ...props.style }}>
       {/* Overlay */}
       <Transition in={loading} timeout={0} nodeRef={ref}>
         {(state: TransitionStates) => (
@@ -60,7 +60,7 @@ export default function ImageTransition(props: ImageTransitionProps) {
             ref={ref}
             style={{
               ...absolute,
-              background: props.loadingColor || "black",
+              background: props.loadingColor || 'black',
               zIndex: 10,
               ...defaultStyle,
               ...transitionStyles[state],
@@ -72,12 +72,12 @@ export default function ImageTransition(props: ImageTransitionProps) {
       <div
         style={{
           ...absolute,
-          background: props.loadingColor || "black",
+          background: props.loadingColor || 'black',
           backgroundImage: `url(${currentImage})`,
-          backgroundPosition: "top",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          height: "100%",
+          backgroundPosition: 'top',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          height: '100%',
         }}
       />
     </div>

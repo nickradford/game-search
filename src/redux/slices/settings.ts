@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { SearchEngineKeys } from "../../util/search.util";
+import { createSlice } from '@reduxjs/toolkit';
+import { SearchEngineKeys } from '../../util/search.util';
 
 export const SettingsKeys = {
-  DefaultSearchEngine: "defaultSearchEngine",
+  DefaultSearchEngine: 'defaultSearchEngine',
 };
 
 export const SearchEngines = {
-  GOOGLE: "Google",
-  DUCKDUCKGO: "DuckDuckGo",
+  GOOGLE: 'Google',
+  DUCKDUCKGO: 'DuckDuckGo',
 };
 
 export interface SettingsSliceState {
@@ -15,11 +15,11 @@ export interface SettingsSliceState {
 }
 
 const initialState: SettingsSliceState = {
-  defaultSearchEngine: "Google",
+  defaultSearchEngine: 'Google',
 };
 
 export const settingsSlice = createSlice({
-  name: "settings",
+  name: 'settings',
   initialState,
   reducers: {
     PURGE: () => initialState,

@@ -1,5 +1,5 @@
-const GOOGLE_BASE = "https://google.com/search?q=";
-const DUCKDUCKGO_BASE = "https://duckduckgo.com/?q=";
+const GOOGLE_BASE = 'https://google.com/search?q=';
+const DUCKDUCKGO_BASE = 'https://duckduckgo.com/?q=';
 
 interface SearchEngines {
   Google: string;
@@ -14,10 +14,10 @@ export const SearchEngines: SearchEngines = {
 };
 
 const formatQueryForSearch = (query: string) => {
-  return query.replace(/\s/gi, "+");
+  return query.replace(/\s/gi, '+');
 };
 
-export const getSearchURL = (game: string, query: string, engine: SearchEngineKeys = "Google") => {
+export const getSearchURL = (game: string, query: string, engine: SearchEngineKeys = 'Google') => {
   const formattedQuery = formatQueryForSearch(`${game} ${query}`);
   return `${SearchEngines[engine]}${formattedQuery}`;
 };

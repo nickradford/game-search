@@ -1,17 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
-import thunk from "redux-thunk";
-import { combineReducers, CombinedState } from "redux";
-import { persistStore, persistReducer } from "redux-persist";
-import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
-import localForage from "localforage";
+import { configureStore } from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
+import { combineReducers, CombinedState } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import localForage from 'localforage';
 
 import { applicationSlice, ApplicationSliceState } from './slices/application';
-import { favoritesSlice, FavoritesSliceState } from "./slices/favorites";
-import { gamesSlice, GamesSliceState } from "./slices/games";
-import { settingsSlice, SettingsSliceState } from "./slices/settings";
+import { favoritesSlice, FavoritesSliceState } from './slices/favorites';
+import { gamesSlice, GamesSliceState } from './slices/games';
+import { settingsSlice, SettingsSliceState } from './slices/settings';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: localForage,
   stateReconciler: autoMergeLevel2,
 };
@@ -32,10 +32,7 @@ export type CombinedStateStructure = CombinedState<{
   settings: SettingsSliceState;
 }>;
 
-const persistedReducer = persistReducer<CombinedStateStructure>(
-  persistConfig,
-  rootReducer
-);
+const persistedReducer = persistReducer<CombinedStateStructure>(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
