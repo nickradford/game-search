@@ -5,6 +5,14 @@ import { v4 as generateID } from 'uuid';
 import { getGameBySlug } from '../../util/rawg';
 import { RAWGGame } from '../../interfaces/game';
 
+interface GameSearch {
+  id: string;
+  query: string;
+  searchEngine: string;
+  url: string;
+  dateSearched: Date;
+}
+
 export interface GamesSliceState {
   selectedGameSlug: string | null;
   pinnedGame: RAWGGame | null;
@@ -14,15 +22,7 @@ export interface GamesSliceState {
   };
   loading: boolean;
   searches: {
-    [slug: string]: [
-      {
-        id: string;
-        query: string;
-        searchEngine: string;
-        url: string;
-        dateSearched: Date;
-      }
-    ];
+    [slug: string]: GameSearch[];
   };
 }
 
@@ -88,6 +88,32 @@ export const gamesSlice = createSlice({
         },
       };
     },
+    removeSearch: (state, { payload: { slug, id } }: PayloadAction<{ slug: string; id: string }>) => {
+      const gameSearches = [...state.searches[slug]];
+      let searchIndex = -1;
+
+      for (let index = 0; index < gameSearches.length; index++) {
+        const search = gameSearches[index];
+        if (search.id === id) {
+          searchIndex = index;
+          break;
+        }
+      }
+
+      if (searchIndex !== -1) {
+        console.log(searchIndex);
+        gameSearches.splice(searchIndex, 1);
+      }
+      console.log(gameSearches);
+
+      return {
+        ...state,
+        searches: {
+          ...state.searches,
+          [slug]: gameSearches,
+        },
+      };
+    },
   },
 });
 
@@ -100,6 +126,7 @@ export const {
   setPinnedGame,
   unpinGame,
   addSearch,
+  removeSearch,
 } = gamesSlice.actions;
 
 export function loadGameData(slug: string) {

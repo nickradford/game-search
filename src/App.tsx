@@ -6,7 +6,7 @@ import SearchPage from './pages/search';
 import GamePage from './pages/game';
 import { PrivacyPage } from './pages/privacy';
 import { SettingsPage } from './pages/settings';
-import { unpinGame as unpinGameAction } from './redux/slices/games';
+import { unpinGame } from './redux/slices/games';
 import { setRandomBackground as setRandomBackgroundAction } from './redux/slices/application';
 
 import ImageTransition from './components/image-transition';
@@ -30,7 +30,6 @@ function App() {
   });
 
   const dispatch = useDispatch();
-  const unpinGame = () => dispatch(unpinGameAction());
   const randomizeBackground = () => dispatch(setRandomBackgroundAction());
 
   return (
@@ -50,7 +49,12 @@ function App() {
         />
       </div>
       <div className="container min-h-full mx-auto flex flex-col sm:justify-between z-10 relative px-4">
-        <Header onClick={randomizeBackground} pinnedGame={pinnedGame} unpinGame={unpinGame} favorites={favoriteGames} />
+        <Header
+          onClick={randomizeBackground}
+          pinnedGame={pinnedGame}
+          unpinGame={() => dispatch(unpinGame())}
+          favorites={favoriteGames}
+        />
 
         <Switch>
           <Route path="/games/:slug">

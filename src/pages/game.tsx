@@ -13,6 +13,7 @@ import {
   addSearch as addSearchAction,
   setPinnedGame as setPinnedGameAction,
   unpinGame,
+  removeSearch,
 } from '../redux/slices/games';
 import { toggleFavorite } from '../redux/slices/favorites';
 import { CombinedStateStructure } from '../redux/store';
@@ -70,11 +71,10 @@ function GamePage() {
     }
   }, [dispatch, gameData]);
 
-  const loadGame = (slug: string) => dispatch(loadGameData(slug));
-  const setSelectedGame = (slug: string) => dispatch(setSelectedGameAction({ slug }));
   const toggleIsFavorite = (slug: string) => dispatch(toggleFavorite(slug));
   const setPinnedGame = (game: RAWGGame) => dispatch(setPinnedGameAction(game));
   const clearPinnedGame = () => dispatch(unpinGame());
+
   const addSearch = (gameSlug: string, query: string, searchEngine: SearchEngineKeys, generatedUrl: string) =>
     dispatch(
       addSearchAction({
@@ -93,12 +93,14 @@ function GamePage() {
   const [loading, setLoading] = useState(!gameKnown);
   const [searchValue, setSearchValue] = useState('');
 
+  const [isEditing, setIsEditing] = useState(false);
+
   useEffect(() => {
     if (!gameKnown) {
-      loadGame(slug);
+      dispatch(loadGameData(slug));
     } else {
       setLoading(!gameKnown);
-      setSelectedGame(slug);
+      dispatch(setSelectedGameAction({ slug }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameKnown, slug]);
@@ -166,6 +168,11 @@ function GamePage() {
                 onChange={(e) => {
                   setSearchValue(e.target.value);
                 }}
+                onFocus={() => {
+                  if (isEditing) {
+                    setIsEditing(false);
+                  }
+                }}
                 autoFocus
               />
               <Button className="w-full sm:w-auto" selected type="submit">
@@ -174,19 +181,29 @@ function GamePage() {
             </form>
             {previousSearches.length ? (
               <div className="flex-1 overflow-auto">
-                <h2>Previous Searches</h2>
+                <div className="flex justify-between items-center">
+                  <h2>Previous Searches</h2>
+                  <div className="flex">
+                    <Button onClick={() => setIsEditing(!isEditing)}>{isEditing ? 'Done' : 'Edit'}</Button>
+                  </div>
+                </div>
                 <hr className="opacity-25 my-2" />
                 {previousSearches.map((search) => (
-                  <a
-                    className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer flex justify-between"
-                    key={search.id}
-                    href={search.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    <span>{search.query}</span>
-                    <TimeAgo date={search.dateSearched} />
-                  </a>
+                  <div key={search.id} className="flex items-center">
+                    <a
+                      className="py-3 px-3 hover:bg-black hover:bg-opacity-50 rounded cursor-pointer flex justify-between flex-1"
+                      key={search.id}
+                      href={search.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <span>{search.query}</span>
+                      <TimeAgo date={search.dateSearched} />
+                    </a>
+                    {isEditing ? (
+                      <Button onClick={() => dispatch(removeSearch({ slug, id: search.id }))}>Delete</Button>
+                    ) : null}
+                  </div>
                 ))}
               </div>
             ) : null}
