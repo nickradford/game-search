@@ -101,10 +101,8 @@ export const gamesSlice = createSlice({
       }
 
       if (searchIndex !== -1) {
-        console.log(searchIndex);
         gameSearches.splice(searchIndex, 1);
       }
-      console.log(gameSearches);
 
       return {
         ...state,
@@ -131,11 +129,9 @@ export const {
 
 export function loadGameData(slug: string) {
   return async (dispatch: Dispatch) => {
-    console.log('thunk', slug);
-
-    await dispatch(loadGameDataStart());
+    dispatch(loadGameDataStart());
     const game = await getGameBySlug(slug);
-    await dispatch(addSingleGame(game));
+    dispatch(addSingleGame(game));
     dispatch(loadGameDataSuccess());
   };
 }

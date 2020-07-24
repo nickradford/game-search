@@ -56,7 +56,7 @@ function Search() {
         setAllMatches([]);
         return;
       }
-      console.log(`Searching for: ${searchTerm}`);
+
       setSearching(true);
 
       try {

@@ -152,9 +152,9 @@ function GamePage() {
               className="flex flex-col sm:flex-row items-center mb-4"
               onSubmit={(e) => {
                 e.preventDefault();
-                console.log('search value', searchValue);
-                console.log('url', getSearchURLforGame(searchValue));
+
                 const url = getSearchURLforGame(searchValue);
+
                 addSearch(slug, searchValue, searchEngine, url);
                 safeWindowOpen(url);
               }}
