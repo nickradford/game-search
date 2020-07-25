@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useRandomBackground } from '../util/useRandomBackground';
 
 export function PrivacyPage() {
+  useRandomBackground();
   return (
     <div className="bg-black p-4 rounded bg-opacity-75 max-w-3xl m-auto prose">
       <h1 className="italic">Privacy</h1>

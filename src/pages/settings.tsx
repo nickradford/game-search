@@ -7,6 +7,7 @@ import { Button } from '../components/button';
 import { purge, CombinedStateStructure } from '../redux/store';
 
 import { SearchEngines, setSettingValue, SettingsKeys } from '../redux/slices/settings';
+import { useRandomBackground } from '../util/useRandomBackground';
 
 export function SettingsPage() {
   function clearAllData() {
@@ -39,6 +40,8 @@ export function SettingsPage() {
   const defaultSearchEngine = useSelector<CombinedStateStructure>((state) => state.settings.defaultSearchEngine);
 
   const dispatch = useDispatch();
+
+  useRandomBackground();
 
   const setDefaultSearchEngine = (engine: string) =>
     dispatch(
