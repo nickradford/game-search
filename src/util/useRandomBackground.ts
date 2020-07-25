@@ -17,7 +17,6 @@ export function useRandomBackground(intervalOverride?: number) {
   );
 
   const dispatch = useDispatch();
-  const [initialRender, setInitialRender] = useState(true);
 
   const interval = intervalOverride || rotateBackgroundInterval;
 
@@ -25,10 +24,7 @@ export function useRandomBackground(intervalOverride?: number) {
     if (!rotateBackground) {
       return;
     }
-    if (!initialRender) {
-      dispatch(setRandomBackground());
-    } else {
-      setInitialRender(false);
-    }
+
+    dispatch(setRandomBackground());
   }, interval);
 }

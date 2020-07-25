@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -6,8 +6,9 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Button } from '../components/button';
 import { purge, CombinedStateStructure } from '../redux/store';
 
-import { SearchEngines, setSettingValue, SettingsKeys } from '../redux/slices/settings';
+import { SearchEngines, setSettingValue, SettingsKeys, SettingsSliceState } from '../redux/slices/settings';
 import { useRandomBackground } from '../util/useRandomBackground';
+import { setBackgroundUrl } from '../redux/slices/application';
 
 export function SettingsPage() {
   function clearAllData() {
@@ -37,7 +38,10 @@ export function SettingsPage() {
     });
   }
 
-  const defaultSearchEngine = useSelector<CombinedStateStructure>((state) => state.settings.defaultSearchEngine);
+  const { defaultSearchEngine, rotateBackground, rotateBackgroundInterval } = useSelector<
+    CombinedStateStructure,
+    SettingsSliceState
+  >((state) => state.settings);
 
   const dispatch = useDispatch();
 
@@ -50,6 +54,8 @@ export function SettingsPage() {
         value: engine,
       })
     );
+
+  const [localBgRandomInterval, setLocalBgRandomInterval] = useState(rotateBackgroundInterval);
 
   return (
     <div className="bg-black p-4 rounded bg-opacity-75 md:max-w-3xl m-auto prose w-full md:w-2/3 xl:w-1/2">
@@ -72,6 +78,41 @@ export function SettingsPage() {
           {SearchEngines.DUCKDUCKGO}
         </Button>
       </div>
+
+      <div className="mb-4">
+        <label>
+          Randomize background{' '}
+          <input
+            type="checkbox"
+            defaultChecked={rotateBackground}
+            onChange={(e) => {
+              dispatch(setSettingValue({ key: SettingsKeys.RotateBackground, value: e.target.checked }));
+            }}
+          />
+        </label>
+      </div>
+      <form
+        className="mb-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(setSettingValue({ key: SettingsKeys.RotateBackgroundInterval, value: localBgRandomInterval }));
+        }}
+      >
+        <label>
+          Background randomization interval (milliseconds)
+          <input
+            name="bgInterval"
+            className="ml-2 mr-2 text-black"
+            type="number"
+            size={8}
+            onChange={(e) => setLocalBgRandomInterval(e.target.valueAsNumber)}
+            defaultValue={rotateBackgroundInterval}
+          />
+        </label>
+        <Button selected={localBgRandomInterval !== rotateBackgroundInterval} type="submit">
+          Save
+        </Button>
+      </form>
 
       <h3 className="text-white">Manage Data</h3>
       <p>All of your favorites and searches are saved in your browser's localstorage.</p>

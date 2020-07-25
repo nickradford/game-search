@@ -3,6 +3,8 @@ import { SearchEngineKeys } from '../../util/search.util';
 
 export const SettingsKeys = {
   DefaultSearchEngine: 'defaultSearchEngine',
+  RotateBackground: 'rotateBackground',
+  RotateBackgroundInterval: 'rotateBackgroundInterval',
 };
 
 export const SearchEngines = {
