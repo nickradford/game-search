@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SyncLoader } from 'react-spinners';
 import { Helmet } from 'react-helmet';
+import useInterval from 'use-interval';
 
 import { searchForGame, formatSearchTerm, slugToString } from '../util/rawg';
 
@@ -12,6 +13,7 @@ import { setSelectedGame, addBatchGames } from '../redux/slices/games';
 import { CombinedStateStructure } from '../redux/store';
 import { GameCard } from '../components/game-card';
 import { RAWGGame } from '../interfaces/game';
+import { setRandomBackground } from '../redux/slices/application';
 
 function Search() {
   const history = useHistory();
@@ -37,10 +39,19 @@ function Search() {
   const selectGame = (game: RAWGGame | null) => dispatch(setSelectedGame(game));
   const addGamesToKnownGames = (games: RAWGGame[]) => dispatch(addBatchGames(games));
 
+  const [initialRender, setInitialRender] = useState(true);
+
   useEffect(() => {
-    selectGame(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(setSelectedGame(null));
+  }, [dispatch]);
+
+  useInterval(() => {
+    if (!initialRender) {
+      dispatch(setRandomBackground());
+    } else {
+      setInitialRender(false);
+    }
+  }, 15000);
 
   useEffect(() => {
     if (name === undefined) {
