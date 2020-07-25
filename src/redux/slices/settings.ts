@@ -12,10 +12,14 @@ export const SearchEngines = {
 
 export interface SettingsSliceState {
   defaultSearchEngine: SearchEngineKeys;
+  rotateBackground: boolean;
+  rotateBackgroundInterval: number;
 }
 
 const initialState: SettingsSliceState = {
   defaultSearchEngine: 'Google',
+  rotateBackground: true,
+  rotateBackgroundInterval: 15000,
 };
 
 export const settingsSlice = createSlice({
