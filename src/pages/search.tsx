@@ -14,6 +14,7 @@ import { CombinedStateStructure } from '../redux/store';
 import { GameCard } from '../components/game-card';
 import { RAWGGame } from '../interfaces/game';
 import { setRandomBackground } from '../redux/slices/application';
+import { useRandomBackground } from '../util/useRandomBackground';
 
 function Search() {
   const history = useHistory();
@@ -39,19 +40,11 @@ function Search() {
   const selectGame = (game: RAWGGame | null) => dispatch(setSelectedGame(game));
   const addGamesToKnownGames = (games: RAWGGame[]) => dispatch(addBatchGames(games));
 
-  const [initialRender, setInitialRender] = useState(true);
+  useRandomBackground();
 
   useEffect(() => {
     dispatch(setSelectedGame(null));
   }, [dispatch]);
-
-  useInterval(() => {
-    if (!initialRender) {
-      dispatch(setRandomBackground());
-    } else {
-      setInitialRender(false);
-    }
-  }, 15000);
 
   useEffect(() => {
     if (name === undefined) {
