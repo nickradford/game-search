@@ -21,7 +21,11 @@ export const applicationSlice = createSlice({
       };
     },
     setRandomBackground: (state) => {
-      const bg = getRandomTop10Image();
+      let bg = state.appBackground;
+
+      while (bg === state.appBackground) {
+        bg = getRandomTop10Image();
+      }
 
       return {
         ...state,
