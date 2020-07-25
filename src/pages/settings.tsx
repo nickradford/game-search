@@ -8,7 +8,6 @@ import { purge, CombinedStateStructure } from '../redux/store';
 
 import { SearchEngines, setSettingValue, SettingsKeys, SettingsSliceState } from '../redux/slices/settings';
 import { useRandomBackground } from '../util/useRandomBackground';
-import { setBackgroundUrl } from '../redux/slices/application';
 
 export function SettingsPage() {
   function clearAllData() {

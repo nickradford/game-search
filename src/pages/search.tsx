@@ -5,7 +5,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SyncLoader } from 'react-spinners';
 import { Helmet } from 'react-helmet';
-import useInterval from 'use-interval';
 
 import { searchForGame, formatSearchTerm, slugToString } from '../util/rawg';
 
@@ -13,7 +12,6 @@ import { setSelectedGame, addBatchGames } from '../redux/slices/games';
 import { CombinedStateStructure } from '../redux/store';
 import { GameCard } from '../components/game-card';
 import { RAWGGame } from '../interfaces/game';
-import { setRandomBackground } from '../redux/slices/application';
 import { useRandomBackground } from '../util/useRandomBackground';
 
 function Search() {
