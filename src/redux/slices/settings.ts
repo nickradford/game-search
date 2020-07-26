@@ -21,7 +21,7 @@ export interface SettingsSliceState {
 const initialState: SettingsSliceState = {
   defaultSearchEngine: 'Google',
   rotateBackground: true,
-  rotateBackgroundInterval: 15000,
+  rotateBackgroundInterval: 20000,
 };
 
 export const settingsSlice = createSlice({
