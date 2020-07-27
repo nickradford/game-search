@@ -5,6 +5,7 @@ export const SettingsKeys = {
   DefaultSearchEngine: 'defaultSearchEngine',
   RotateBackground: 'rotateBackground',
   RotateBackgroundInterval: 'rotateBackgroundInterval',
+  WrapGameInQuotes: 'wrapGameInQuotes',
 };
 
 export const SearchEngines = {
@@ -16,12 +17,14 @@ export interface SettingsSliceState {
   defaultSearchEngine: SearchEngineKeys;
   rotateBackground: boolean;
   rotateBackgroundInterval: number;
+  wrapGameInQuotes: boolean;
 }
 
 const initialState: SettingsSliceState = {
   defaultSearchEngine: 'Google',
   rotateBackground: true,
   rotateBackgroundInterval: 20000,
+  wrapGameInQuotes: false,
 };
 
 export const settingsSlice = createSlice({

@@ -35,6 +35,7 @@ interface StateProps {
   isPinnedGame: boolean;
   previousSearches: Search[];
   searchEngine: SearchEngineKeys;
+  wrapGameInQuotes: boolean;
 }
 
 function GamePage() {
@@ -48,6 +49,7 @@ function GamePage() {
     const previousSearches: Search[] = slug in state.games.searches ? [...state.games.searches[slug]].reverse() : [];
     const isPinnedGame = state.games.pinnedGame ? slug === state.games.pinnedGame.slug : false;
     const searchEngine = state.settings.defaultSearchEngine;
+    const wrapGameInQuotes = state.settings.wrapGameInQuotes;
 
     return {
       gameKnown,
@@ -56,13 +58,19 @@ function GamePage() {
       isPinnedGame,
       previousSearches,
       searchEngine,
+      wrapGameInQuotes,
     };
   };
 
-  const { gameKnown, gameData, isFavorite, isPinnedGame, previousSearches, searchEngine } = useSelector<
-    CombinedStateStructure,
-    StateProps
-  >(selector);
+  const {
+    gameKnown,
+    gameData,
+    isFavorite,
+    isPinnedGame,
+    previousSearches,
+    searchEngine,
+    wrapGameInQuotes,
+  } = useSelector<CombinedStateStructure, StateProps>(selector);
 
   // Sets the application background once the gameData is loaded
   useEffect(() => {
@@ -88,7 +96,8 @@ function GamePage() {
       })
     );
 
-  const getSearchURLforGame = (q: string) => getSearchURL(gameData!.name, q, searchEngine);
+  const getSearchURLforGame = (q: string) =>
+    getSearchURL(wrapGameInQuotes ? `"${gameData!.name}"` : gameData!.name, q, searchEngine);
 
   const [loading, setLoading] = useState(!gameKnown);
   const [searchValue, setSearchValue] = useState('');

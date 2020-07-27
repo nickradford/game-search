@@ -37,7 +37,7 @@ export function SettingsPage() {
     });
   }
 
-  const { defaultSearchEngine, rotateBackground, rotateBackgroundInterval } = useSelector<
+  const { defaultSearchEngine, rotateBackground, rotateBackgroundInterval, wrapGameInQuotes } = useSelector<
     CombinedStateStructure,
     SettingsSliceState
   >((state) => state.settings);
@@ -80,7 +80,24 @@ export function SettingsPage() {
 
       <div className="mb-4">
         <label>
-          Randomize background{' '}
+          <span className="mr-2">Wrap game name in quotes?</span>
+          <input
+            type="checkbox"
+            defaultChecked={wrapGameInQuotes}
+            onChange={(e) => {
+              dispatch(setSettingValue({ key: SettingsKeys.WrapGameInQuotes, value: e.target.checked }));
+            }}
+          />
+        </label>
+        <p className="text-xs">
+          Search results may sometimes show up for other games in a series. Turn this on in order to wrap the game name
+          in quotes to force the search engine to only show results which contain the specific game name.
+        </p>
+      </div>
+
+      <div className="mb-4">
+        <label>
+          <span className="mr-2">Randomize background</span>
           <input
             type="checkbox"
             defaultChecked={rotateBackground}
