@@ -121,7 +121,7 @@ function GamePage() {
   return (
     <>
       <Helmet>
-        <title>{gameData.name} | Game Search</title>
+        <title>{gameData.name} | GameSearch</title>
       </Helmet>
       <div className="flex-1">
         <div className="flex min-h-full flex-col md:flex-row">

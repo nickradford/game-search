@@ -86,7 +86,7 @@ function Search() {
   return (
     <>
       <Helmet>
-        <title>Game Search</title>
+        <title>GameSearch | Focus on your games</title>
       </Helmet>
       <div className={cn}>
         <form
