@@ -1,5 +1,6 @@
 export const topGameSlugs = `
 animal-crossing-2019
+assassins-creed-valhalla
 call-of-duty-modern-warfare
 control
 cyberpunk-2077
