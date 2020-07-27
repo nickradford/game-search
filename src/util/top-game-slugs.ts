@@ -1,6 +1,7 @@
 export const topGameSlugs = `
 animal-crossing-2019
 call-of-duty-modern-warfare
+control
 cyberpunk-2077
 destiny-2
 dota-2
@@ -8,7 +9,9 @@ football-manager-2020
 fortnite
 forza-horizon-4
 grand-theft-auto-v
+jedi-fallen-order
 league-of-legends
+metro-exodus
 microsoft-flight-simulator-2019
 minecraft
 minecraft-dungeons
