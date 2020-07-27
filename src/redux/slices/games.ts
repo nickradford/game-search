@@ -133,5 +133,6 @@ export function loadGameData(slug: string) {
     const game = await getGameBySlug(slug);
     dispatch(addSingleGame(game));
     dispatch(loadGameDataSuccess());
+    return game;
   };
 }

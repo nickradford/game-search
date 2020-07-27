@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 
-import { setRandomBackground } from '../redux/slices/application';
+import { setRandomBackgroundGame } from '../redux/slices/application';
 import { CombinedStateStructure } from '../redux/store';
 import { SettingsSliceState } from '../redux/slices/settings';
 
@@ -24,6 +24,6 @@ export function useRandomBackground(intervalOverride?: number) {
       return;
     }
 
-    dispatch(setRandomBackground());
+    dispatch(setRandomBackgroundGame());
   }, interval);
 }
