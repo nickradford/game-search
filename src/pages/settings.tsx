@@ -115,14 +115,15 @@ export function SettingsPage() {
         }}
       >
         <label>
-          Background randomization interval (milliseconds)
+          Background randomization interval (seconds)
           <input
             name="bgInterval"
             className="ml-2 mr-2 text-black"
             type="number"
+            step={0.5}
             size={8}
-            onChange={(e) => setLocalBgRandomInterval(e.target.valueAsNumber)}
-            defaultValue={rotateBackgroundInterval}
+            onChange={(e) => setLocalBgRandomInterval(e.target.valueAsNumber * 1000)}
+            defaultValue={rotateBackgroundInterval / 1000}
           />
         </label>
         <Button selected={localBgRandomInterval !== rotateBackgroundInterval} type="submit">
