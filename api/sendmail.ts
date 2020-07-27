@@ -32,7 +32,7 @@ export default (req: NowRequest, res: NowResponse) => {
         console.info(req.body);
         console.error(err);
         res.status(500);
-        res.json({ msg: 'An error ocurred while sending the email.' });
+        res.json({ msg: 'An error ocurred while sending the email. Please try again later.' });
       }
     );
   } else {
@@ -40,7 +40,7 @@ export default (req: NowRequest, res: NowResponse) => {
     console.info(req.body);
 
     res.statusCode = 406;
-    res.json({ msg: "You're not allowed to do that, sorry." });
+    res.json({ msg: "You're not allowed to do that from this domain, sorry." });
     res.end();
   }
 };

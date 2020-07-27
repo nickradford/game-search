@@ -24,6 +24,7 @@ export function ContactPage() {
   useRandomBackground();
   const initialValues: ContactFormValues = { name: '', email: '', feedback: '' };
   const [emailSent, setEmailSent] = React.useState(false);
+  const [emailError, setEmailError] = React.useState<boolean | string>(false);
 
   return (
     <div className="bg-black p-4 rounded bg-opacity-75 max-w-3xl m-auto prose">
@@ -38,68 +39,69 @@ export function ContactPage() {
         </a>{' '}
         or let me know what's happened using the form below.
       </p>
+      {emailError ? <div className="px-3 py-2 bg-red-900">{emailError}</div> : null}
       {emailSent ? (
         <p>Thanks for the email, I'll be sure to respond as soon as I can!</p>
       ) : (
-        <Formik
-          initialValues={initialValues}
-          validationSchema={ContactSchema}
-          onSubmit={async (values, { setSubmitting }) => {
-            // const body = new FormData();
+        !emailError && (
+          <Formik
+            initialValues={initialValues}
+            validationSchema={ContactSchema}
+            onSubmit={async (values, { setSubmitting }) => {
+              const resp = await fetch('/api/sendmail', {
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                method: 'POST',
+                body: JSON.stringify(values),
+              });
 
-            // for (const [key, value] of Object.entries(values)) {
-            //   body.append(key, value);
-            // }
+              if (resp.ok) {
+                setSubmitting(false);
+                setEmailSent(true);
+              } else {
+                const err = await resp.json();
+                setSubmitting(false);
+                setEmailError(err.msg);
+              }
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form className="flex-col w-full font-asap text-black">
+                <Field type="name" name="name" placeholder="Your name" className="px-3 py-2 rounded flex-1 w-full" />
+                <ErrorMessage name="name" component="div" className="text-white bg-gray-800 px-3 py-2" />
 
-            // console.log(body);
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Your email"
+                  className="px-3 py-2 mt-2 rounded flex-1 w-full"
+                />
+                <ErrorMessage name="email" component="div" className="text-white bg-gray-800 px-3 py-2" />
 
-            await fetch('/api/sendmail', {
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              method: 'POST',
-              body: JSON.stringify(values),
-            });
+                <Field
+                  as="textarea"
+                  name="feedback"
+                  className="w-full rounded px-3 py-2 mt-2"
+                  required
+                  rows={6}
+                  placeholder="What's on your mind?"
+                />
+                <ErrorMessage name="feedback" component="div" className="text-white bg-gray-800 px-3 py-2" />
 
-            setSubmitting(false);
-            setEmailSent(true);
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form className="flex-col w-full font-asap text-black">
-              <Field type="name" name="name" placeholder="Your name" className="px-3 py-2 rounded flex-1 w-full" />
-              <ErrorMessage name="name" component="div" className="text-white bg-gray-800 px-3 py-2" />
-
-              <Field
-                type="email"
-                name="email"
-                placeholder="Your email"
-                className="px-3 py-2 mt-2 rounded flex-1 w-full"
-              />
-              <ErrorMessage name="email" component="div" className="text-white bg-gray-800 px-3 py-2" />
-
-              <Field
-                as="textarea"
-                name="feedback"
-                className="w-full rounded px-3 py-2 mt-2"
-                required
-                rows={6}
-                placeholder="What's on your mind?"
-              />
-              <ErrorMessage name="feedback" component="div" className="text-white bg-gray-800 px-3 py-2" />
-
-              <Button
-                className="mt-4 bg-pink-600 border-pink-600 text-white uppercase w-full"
-                disabled={isSubmitting}
-                disabledClasses="bg-opacity-25"
-                type="submit"
-              >
-                Send Email
-              </Button>
-            </Form>
-          )}
-        </Formik>
+                <Button
+                  className="mt-4 bg-pink-600 border-pink-600 text-white uppercase w-full"
+                  disabled={isSubmitting}
+                  disabledClasses="bg-opacity-25"
+                  type="submit"
+                >
+                  Send Email
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        )
       )}
     </div>
   );
