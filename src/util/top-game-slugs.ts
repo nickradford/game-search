@@ -10,7 +10,7 @@ football-manager-2020
 fortnite
 forza-horizon-4
 grand-theft-auto-v
-jedi-fallen-order
+jedi-the-fallen-order
 league-of-legends
 metro-exodus
 microsoft-flight-simulator-2019

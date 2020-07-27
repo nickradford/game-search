@@ -97,7 +97,7 @@ function App() {
           </aside>
           <main>
             Game data provided by{' '}
-            <a href="https://rawg.io" target="_new" rel="noopener nofollow" className="text-pink-600">
+            <a href="https://rawg.io" target="_new" rel="noopener nofollow" className="text-pink-500">
               rawg.io
             </a>
           </main>
