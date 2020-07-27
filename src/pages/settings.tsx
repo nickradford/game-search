@@ -121,6 +121,7 @@ export function SettingsPage() {
             className="ml-2 mr-2 text-black"
             type="number"
             step={0.5}
+            min={5}
             size={8}
             onChange={(e) => setLocalBgRandomInterval(e.target.valueAsNumber * 1000)}
             defaultValue={rotateBackgroundInterval / 1000}
