@@ -24,7 +24,9 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
           onClick={onClick}
         >
           <LogoOutline />
-          <span className="ml-3 text-3xl font-bold italic">GameSearch</span>
+          <span className="ml-3 text-3xl font-bold italic" style={{ textShadow: '2px 2px 6px rgba(0, 0, 0, .25)' }}>
+            GameSearch<span className="text-xl text-gray-300 not-italic">.xyz</span>
+          </span>
         </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center text-gray-300">
           {/* <a className="mr-5 hover:text-white">First Link</a> */}
