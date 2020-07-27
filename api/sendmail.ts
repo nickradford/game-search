@@ -22,12 +22,25 @@ export default (req: NowRequest, res: NowResponse) => {
         feedback,
       },
     };
-    sg.send(msg).then(() => {
-      res.status(200);
-      res.end();
-    });
+    sg.send(msg).then(
+      () => {
+        res.status(200);
+        res.end();
+      },
+      (err) => {
+        console.log(req.headers);
+        console.info(req.body);
+        console.error(err);
+        res.status(500);
+        res.json({ msg: 'An error ocurred while sending the email.' });
+      }
+    );
   } else {
+    console.info(req.headers);
+    console.info(req.body);
+
     res.statusCode = 406;
+    res.json({ msg: "You're not allowed to do that, sorry." });
     res.end();
   }
 };
