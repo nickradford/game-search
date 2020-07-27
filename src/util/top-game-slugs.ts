@@ -6,6 +6,7 @@ destiny-2
 dota-2
 football-manager-2020
 fortnite
+forza-horizon-4
 grand-theft-auto-v
 league-of-legends
 microsoft-flight-simulator-2019
