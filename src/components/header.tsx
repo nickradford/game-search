@@ -63,6 +63,9 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
           <Link className="mr-5 hover:text-white" to="/privacy">
             Privacy
           </Link>
+          <Link className="mr-5 hover:text-white" to="/contact">
+            Contact
+          </Link>
           <Link className="hover:text-white" to="/settings">
             Settings
           </Link>

@@ -13,6 +13,7 @@ import ImageTransition from './components/image-transition';
 import { Header } from './components/header';
 import { RAWGGame } from './interfaces/game';
 import { CombinedStateStructure } from './redux/store';
+import { ContactPage } from './pages/contact';
 
 interface StateProps {
   appBackground: string | undefined;
@@ -68,6 +69,9 @@ function App() {
           </Route>
           <Route path="/settings" exact>
             <SettingsPage />
+          </Route>
+          <Route path="/contact" exact>
+            <ContactPage />
           </Route>
           <Route path="/" exact>
             {pinnedGame ? <Redirect to={`/games/${pinnedGame.slug}`} /> : <SearchPage />}

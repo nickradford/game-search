@@ -1,24 +1,27 @@
 module.exports = {
   theme: {
     fontFamily: {
-      asap: ["Asap", "sans-serif"],
+      asap: ['Asap', 'sans-serif'],
     },
     typography: {
       default: {
         css: {
-          color: "#fff",
+          color: '#fff',
           h3: {
-            color: "#fff",
+            color: '#fff',
           },
           h1: {
-            color: "#fff",
+            color: '#fff',
+          },
+          a: {
+            color: '#ed64a6',
           },
         },
       },
     },
   },
   variants: {
-    margin: ["responsive", "last"],
+    margin: ['responsive', 'last'],
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require('@tailwindcss/typography')],
 };
