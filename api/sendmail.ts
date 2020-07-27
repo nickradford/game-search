@@ -3,7 +3,7 @@ import sg from '@sendgrid/mail';
 
 sg.setApiKey(process.env.SG_API_KEY);
 
-const allowList = ['localhost:3000', 'gs.nickradford.dev'];
+const allowList = ['localhost:3000', 'gs.nickradford.dev', 'gamesearch.xyz'];
 
 export default (req: NowRequest, res: NowResponse) => {
   const host = req.headers['x-forwarded-host'];
