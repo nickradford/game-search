@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { getRandomTop10Image } from '../../util/steam.top10';
-import { getRandomGameSlug } from '../../util/top-game-slugs';
+import { getRandomGameSlug, getNextGameSlug } from '../../util/top-game-slugs';
 import { RAWGGame } from '../../interfaces/game';
 import { CombinedStateStructure } from '../store';
 import { loadGameData } from './games';
@@ -62,10 +62,7 @@ export function setRandomBackgroundGame() {
   return async (dispatch: ThunkDispatch<{}, {}, AnyAction>, getState: () => CombinedStateStructure) => {
     // get new slug in loop to make sure its new
     const state = getState();
-    let slug = state.application.backgroundGameSlug;
-    while (slug === state.application.backgroundGameSlug) {
-      slug = getRandomGameSlug();
-    }
+    let slug = getNextGameSlug(state.application.backgroundGameSlug);
 
     // if the game isn't loaded, dispatch action to load it
     const game = await dispatch(loadGameData(slug));
