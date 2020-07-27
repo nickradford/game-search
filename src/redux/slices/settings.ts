@@ -23,7 +23,7 @@ export interface SettingsSliceState {
 const initialState: SettingsSliceState = {
   defaultSearchEngine: 'Google',
   rotateBackground: true,
-  rotateBackgroundInterval: 20000,
+  rotateBackgroundInterval: 30000,
   wrapGameInQuotes: false,
 };
 
