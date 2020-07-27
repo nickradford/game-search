@@ -1,5 +1,5 @@
 import { NowRequest, NowResponse } from '@vercel/node';
-import sg, { MailService } from '@sendgrid/mail';
+import sg from '@sendgrid/mail';
 
 sg.setApiKey(process.env.SG_API_KEY);
 
