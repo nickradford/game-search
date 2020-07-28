@@ -1,3 +1,5 @@
+import { shuffle } from './shuffle';
+
 export const topGameSlugs = `
 animal-crossing-2019
 assassins-creed-valhalla
@@ -27,16 +29,17 @@ valorant
 world-of-warcraft
 `
   .trim()
-  .split('\n')
-  .sort(() => Math.random() - 0.5);
+  .split('\n');
+
+export const shuffledGameSlugs = shuffle(topGameSlugs);
 
 export const getRandomGameSlug = () => {
-  return topGameSlugs[Math.floor(Math.random() * topGameSlugs.length)];
+  return shuffledGameSlugs[Math.floor(Math.random() * shuffledGameSlugs.length)];
 };
 
 export const getNextGameSlug = (currentSlug: string) => {
-  const index = topGameSlugs.indexOf(currentSlug);
-  const nextIndex = index === topGameSlugs.length - 1 ? 0 : index + 1;
+  const index = shuffledGameSlugs.indexOf(currentSlug);
+  const nextIndex = index === shuffledGameSlugs.length - 1 ? 0 : index + 1;
 
-  return topGameSlugs[nextIndex];
+  return shuffledGameSlugs[nextIndex];
 };
