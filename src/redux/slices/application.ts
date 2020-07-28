@@ -63,9 +63,14 @@ export function setRandomBackgroundGame() {
     // get new slug in loop to make sure its new
     const state = getState();
     let slug = getNextGameSlug(state.application.backgroundGameSlug);
+    let game;
 
+    if (!state.games.byIds[slug]) {
+      game = await dispatch(loadGameData(slug));
+    } else {
+      game = state.games.byIds[slug];
+    }
     // if the game isn't loaded, dispatch action to load it
-    const game = await dispatch(loadGameData(slug));
 
     // finally when its loaded, set the app background
     dispatch(setBackgroundGame(game));
