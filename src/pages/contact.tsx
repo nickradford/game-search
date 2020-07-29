@@ -59,7 +59,11 @@ export function ContactPage() {
                     'Content-Type': 'application/json',
                   },
                   method: 'POST',
-                  body: JSON.stringify({ ...values, templateId: 'd-874e16697d0d467596249e3f80d0b285' }),
+                  body: JSON.stringify({
+                    ...values,
+                    from: 'no-reply@gamesearch.xyz',
+                    templateId: 'd-874e16697d0d467596249e3f80d0b285',
+                  }),
                 });
 
                 if (resp.ok) {
