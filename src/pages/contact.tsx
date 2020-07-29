@@ -53,13 +53,13 @@ export function ContactPage() {
               initialValues={initialValues}
               validationSchema={ContactSchema}
               onSubmit={async (values, { setSubmitting }) => {
-                const resp = await fetch('/api/sendmail', {
+                const resp = await fetch('https://api.nickradford.dev/api/sendmail', {
                   headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                   },
                   method: 'POST',
-                  body: JSON.stringify(values),
+                  body: JSON.stringify({ ...values, templateId: 'd-874e16697d0d467596249e3f80d0b285' }),
                 });
 
                 if (resp.ok) {
