@@ -5,6 +5,8 @@ const HEADERS = {
 };
 const BASE_URL = 'https://api.rawg.io/api';
 
+const RAWG_API_KEY = process.env.REACT_APP_RAWG_API_KEY
+
 const inFlightSearches: AbortController[] = [];
 
 export const formatSearchTerm = (term: string) => {
@@ -16,7 +18,7 @@ export const slugToString = (slug = '') => {
 };
 
 export const getGameBySlug = async (slug: string) => {
-  const url = `${BASE_URL}/games/${slug}`;
+  const url = `${BASE_URL}/games/${slug}?key=${RAWG_API_KEY}`;
 
   const res = await fetch(url, { headers: HEADERS });
   const data = await res.json();
@@ -25,7 +27,7 @@ export const getGameBySlug = async (slug: string) => {
 };
 
 export const searchForGame = async (title: string, queryParams = '', cancelPreviousSearches = false) => {
-  const url = `${BASE_URL}/games?search=${title}${queryParams && `&${queryParams}`}`;
+  const url = `${BASE_URL}/games?key=${RAWG_API_KEY}&search=${title}${queryParams && `&${queryParams}`}`;
 
   if (cancelPreviousSearches) {
     inFlightSearches.forEach((controller) => controller.abort());
