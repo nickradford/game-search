@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { Helmet } from 'react-helmet';
+import * as React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { Helmet } from "react-helmet";
 
-import { useRandomBackground } from '../util/useRandomBackground';
-import { Button } from '../components/button';
+import { useRandomBackground } from "../util/useRandomBackground";
+import { Button } from "../components/button";
 
 interface ContactFormValues {
   name: string;
@@ -14,16 +14,24 @@ interface ContactFormValues {
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
-    .min(3, 'Please enter more than 3 characters')
-    .max(50, 'Please enter fewer than 50 characters')
-    .required('Your name is required'),
-  email: Yup.string().email('Invalid email format').required('Your email is required'),
-  feedback: Yup.string().min(20, 'Please enter more than 20 characters').required('Why contact me with no feedback?'),
+    .min(3, "Please enter more than 3 characters")
+    .max(50, "Please enter fewer than 50 characters")
+    .required("Your name is required"),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Your email is required"),
+  feedback: Yup.string()
+    .min(20, "Please enter more than 20 characters")
+    .required("Why contact me with no feedback?"),
 });
 
 export function ContactPage() {
   useRandomBackground();
-  const initialValues: ContactFormValues = { name: '', email: '', feedback: '' };
+  const initialValues: ContactFormValues = {
+    name: "",
+    email: "",
+    feedback: "",
+  };
   const [emailSent, setEmailSent] = React.useState(false);
   const [emailError, setEmailError] = React.useState<boolean | string>(false);
 
@@ -38,13 +46,16 @@ export function ContactPage() {
           Thanks for using <span className="font-bold italic">GameSearch</span>!
         </p>
         <p>
-          If you've run into some issues, please feel free to open a ticket on{' '}
-          <a className="text-pink-500" href="https://github.com/nickradford/game-search/issues">
+          If you've run into some issues, please feel free to open a ticket on{" "}
+          <a
+            className="text-pink-500"
+            href="https://github.com/nickradford/game-search/issues"
+          >
             Github
-          </a>{' '}
-          or let me know what's happened using the form below.
+          </a>{" "}
+          {/* or let me know what's happened using the form below. */}
         </p>
-        {emailError ? <div className="px-3 py-2 bg-red-900">{emailError}</div> : null}
+        {/* {emailError ? <div className="px-3 py-2 bg-red-900">{emailError}</div> : null}
         {emailSent ? (
           <p>Thanks for the email, I'll be sure to respond as soon as I can!</p>
         ) : (
@@ -111,7 +122,7 @@ export function ContactPage() {
               )}
             </Formik>
           )
-        )}
+        )} */}
       </div>
     </>
   );
