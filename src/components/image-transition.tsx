@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef, CSSProperties } from 'react';
 import { Transition } from 'react-transition-group';
 

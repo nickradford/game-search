@@ -1,4 +1,9 @@
-module.exports = {
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     fontFamily: {
       asap: ['Asap', 'sans-serif'],
@@ -24,4 +29,5 @@ module.exports = {
     margin: ['responsive', 'last'],
   },
   plugins: [require('@tailwindcss/typography')],
-};
+} satisfies Config;
+

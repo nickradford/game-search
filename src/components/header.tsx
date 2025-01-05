@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
+"use client";
+
+import Link from 'next/link';
 
 import { PushPin } from './pushpin';
 import { LogoOutline } from './logo';
@@ -20,7 +21,7 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
       <div className="container mx-auto flex flex-wrap py-5 flex-col md:flex-row items-center">
         <Link
           className="flex title-font font-medium items-center text-white mb-4 md:mb-0"
-          to="/search"
+          href="/search"
           onClick={onClick}
         >
           <LogoOutline />
@@ -29,7 +30,7 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
           </span>
         </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center text-gray-300">
-          {/* <a className="mr-5 hover:text-white">First Link</a> */}
+          {/* <Link className="mr-5 hover:text-white">First Link</Link> */}
           {pinnedGame ? (
             <Dropdown className="mr-5">
               <Dropdown.Label>
@@ -49,7 +50,7 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
               <Dropdown.Menu>
                 {favorites.map((game) => (
                   <Dropdown.MenuItem>
-                    <Link to={`/games/${game.slug}`} className="flex items-center">
+                    <Link href={`/games/${game.slug}`} className="flex items-center">
                       <ImageTransition
                         src={game.background_image}
                         className="box-border flex-shrink-0"
@@ -62,13 +63,13 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
               </Dropdown.Menu>
             </Dropdown>
           ) : null}
-          <Link className="mr-5 hover:text-white" to="/privacy">
+          <Link className="mr-5 hover:text-white" href="/privacy">
             Privacy
           </Link>
-          <Link className="mr-5 hover:text-white" to="/contact">
+          <Link className="mr-5 hover:text-white" href="/contact">
             Contact
           </Link>
-          <Link className="hover:text-white" to="/settings">
+          <Link className="hover:text-white" href="/settings">
             Settings
           </Link>
         </nav>
