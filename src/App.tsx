@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, Redirect, Link } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import SearchPage from './pages/search';
@@ -14,6 +14,7 @@ import { Header } from './components/header';
 import { RAWGGame } from './interfaces/game';
 import { CombinedStateStructure } from './redux/store';
 import { ContactPage } from './pages/contact';
+import { Outlet, Routes, Route, Link } from 'react-router';
 
 interface StateProps {
   backgroundGame: RAWGGame | null;
@@ -63,26 +64,19 @@ function App() {
           favorites={favoriteGames}
         />
 
-        <Switch>
-          <Route path="/games/:slug">
-            <GamePage />
-          </Route>
-          <Route path="/search/:name?">
-            <SearchPage />
-          </Route>
-          <Route path="/privacy" exact>
-            <PrivacyPage />
-          </Route>
-          <Route path="/settings" exact>
-            <SettingsPage />
-          </Route>
-          <Route path="/contact" exact>
-            <ContactPage />
-          </Route>
-          <Route path="/" exact>
-            {pinnedGame ? <Redirect to={`/games/${pinnedGame.slug}`} /> : <SearchPage />}
-          </Route>
-        </Switch>
+        <Routes>
+          <Route index element={<SearchPage />} />
+          <Route path="/search/:name?" element={<SearchPage />} />
+          <Route path="/games/:slug" element={<GamePage />} />
+        </Routes>
+        <Outlet />
+
+        {/* <Route path="/games/:slug" element={<GamePage />} />
+          <Route path="/search/:name?" element={<SearchPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/contact" element={<ContactPage />} /> */}
+        {/* <Route path="/" element={pinnedGame ? <Redirect to={`/games/${pinnedGame.slug}`} /> : <SearchPage />} /> */}
 
         <footer className="flex justify-between">
           <aside>

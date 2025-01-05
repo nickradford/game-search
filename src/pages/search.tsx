@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import { useDebounce } from 'use-debounce';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux';
 import { SyncLoader } from 'react-spinners';
 import { Helmet } from 'react-helmet';
@@ -15,13 +15,15 @@ import { RAWGGame } from '../interfaces/game';
 import { useRandomBackground } from '../util/useRandomBackground';
 
 function Search() {
-  const history = useHistory();
   const { name } = useParams();
 
   const [searchTerm, setSearchTerm] = useState(slugToString(name) || '');
   const [searching, setSearching] = useState(name !== '');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 350);
   const [allMatches, setAllMatches] = useState<RAWGGame[]>([]);
+
+  console.log('searchTerm', searchTerm);
+  console.log('debouncedSearchTerm', debouncedSearchTerm);
 
   const dispatch = useDispatch();
 
@@ -66,7 +68,8 @@ function Search() {
         setAllMatches(allMatches);
         addGamesToKnownGames(allMatches);
 
-        history.push(`/search/${formatSearchTerm(searchTerm)}`);
+        // TODO, navigate using react-router
+        // history.push(`/search/${formatSearchTerm(searchTerm)}`);
 
         setSearching(false);
       } catch (e) {

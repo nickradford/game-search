@@ -36,7 +36,6 @@ const persistedReducer = persistReducer<CombinedStateStructure>(persistConfig, r
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: [thunk],
 });
 
 const slices = [applicationSlice, favoritesSlice, gamesSlice, settingsSlice];
