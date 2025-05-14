@@ -28,7 +28,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
-    "tailwindcss": "^1.4.6",
+    "tailwindcss": "^4.1.6",
     "typescript": "^3.9.6",
     "use-debounce": "^10.0.4",
     "use-interval": "^1.2.1",

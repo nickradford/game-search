@@ -52,7 +52,7 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
                     <Link to={`/games/${game.slug}`} className="flex items-center">
                       <ImageTransition
                         src={game.background_image}
-                        className="box-border flex-shrink-0"
+                        className="box-border shrink-0"
                         style={{ width: '80px', height: '45px' }}
                       />
                       <span className="md:whitespace-no-wrap ml-4">{game.name}</span>
