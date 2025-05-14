@@ -5,7 +5,7 @@ const HEADERS = {
 };
 const BASE_URL = 'https://api.rawg.io/api';
 
-const RAWG_API_KEY = process.env.REACT_APP_RAWG_API_KEY
+const RAWG_API_KEY = import.meta.env.VITE_RAWG_API_KEY
 
 const inFlightSearches: AbortController[] = [];
 
@@ -27,6 +27,7 @@ export const getGameBySlug = async (slug: string) => {
 };
 
 export const searchForGame = async (title: string, queryParams = '', cancelPreviousSearches = false) => {
+  console.log('searchForGame', title, queryParams, cancelPreviousSearches);
   const url = `${BASE_URL}/games?key=${RAWG_API_KEY}&search=${title}${queryParams && `&${queryParams}`}`;
 
   if (cancelPreviousSearches) {

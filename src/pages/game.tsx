@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter, useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import TimeAgo from 'react-timeago';
@@ -223,4 +223,4 @@ function GamePage() {
   );
 }
 
-export default withRouter(GamePage);
+export default GamePage;

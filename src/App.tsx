@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, Redirect, Link } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import SearchPage from './pages/search';
 import GamePage from './pages/game';
+import { ContactPage } from './pages/contact';
 import { PrivacyPage } from './pages/privacy';
 import { SettingsPage } from './pages/settings';
 import { unpinGame } from './redux/slices/games';
@@ -13,7 +14,7 @@ import ImageTransition from './components/image-transition';
 import { Header } from './components/header';
 import { RAWGGame } from './interfaces/game';
 import { CombinedStateStructure } from './redux/store';
-import { ContactPage } from './pages/contact';
+import { Outlet, Routes, Route, Link, Navigate, useLocation } from 'react-router';
 
 interface StateProps {
   backgroundGame: RAWGGame | null;
@@ -63,26 +64,17 @@ function App() {
           favorites={favoriteGames}
         />
 
-        <Switch>
-          <Route path="/games/:slug">
-            <GamePage />
-          </Route>
-          <Route path="/search/:name?">
-            <SearchPage />
-          </Route>
-          <Route path="/privacy" exact>
-            <PrivacyPage />
-          </Route>
-          <Route path="/settings" exact>
-            <SettingsPage />
-          </Route>
-          <Route path="/contact" exact>
-            <ContactPage />
-          </Route>
-          <Route path="/" exact>
-            {pinnedGame ? <Redirect to={`/games/${pinnedGame.slug}`} /> : <SearchPage />}
-          </Route>
-        </Switch>
+        <Routes>
+          <Route index element={pinnedGame ? <Navigate to={`/games/${pinnedGame.slug}`} /> : <SearchPage />} />
+          <Route path="/search/:name?" element={<SearchPage />} />
+          <Route path="/games/:slug" element={<GamePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+
+        <Outlet />
+
 
         <footer className="flex justify-between">
           <aside>
@@ -94,6 +86,7 @@ function App() {
                 : {backgroundGame ? backgroundGame.name : null}
               </Link>
             ) : null}
+            {/* <button className='px-4' onClick={() => dispatch(setRandomBackgroundGame())}>→</button> */}
           </aside>
           <main>
             Game data provided by{' '}
