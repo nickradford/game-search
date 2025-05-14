@@ -17,7 +17,7 @@ grand-theft-auto-v
 jedi-the-fallen-order
 league-of-legends
 metro-exodus
-microsoft-flight-simulator-2019
+microsoft-flight-simulator
 minecraft
 minecraft-dungeons
 monster-hunter-world-2
