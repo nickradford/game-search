@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import './tailwind.generated.css';
+import './tailwind.css';
 import App from './App';
 import { store, persistor } from './redux/store';
 import { Analytics } from "@vercel/analytics/react"

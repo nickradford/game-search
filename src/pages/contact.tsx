@@ -40,7 +40,7 @@ export function ContactPage() {
       <Helmet>
         <title>Contact | GameSearch</title>
       </Helmet>
-      <div className="bg-black p-4 rounded bg-opacity-75 max-w-3xl m-auto prose">
+      <div className="bg-black p-4 rounded bg-opacity-75 max-w-3xl m-auto prose prose-invert">
         <h1 className="italic">Contact</h1>
         <p>
           Thanks for using <span className="font-bold italic">GameSearch</span>!

@@ -62,7 +62,7 @@ export function SettingsPage() {
       <Helmet>
         <title>Settings | GameSearch</title>
       </Helmet>
-      <div className="bg-black p-4 rounded bg-opacity-75 md:max-w-3xl m-auto prose w-full md:w-2/3 xl:w-1/2">
+      <div className="bg-black p-4 rounded bg-opacity-75 md:max-w-3xl m-auto prose prose-invert w-full md:w-2/3 xl:w-1/2">
         <h1 className="italic">Settings</h1>
 
         <div className="mb-4">
@@ -123,7 +123,7 @@ export function SettingsPage() {
             Background randomization interval (seconds)
             <input
               name="bgInterval"
-              className="ml-2 mr-2 text-black"
+              className="ml-2 mr-2 text-black bg-white"
               type="number"
               step={0.5}
               min={5}

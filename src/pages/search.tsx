@@ -102,7 +102,7 @@ function Search() {
           </label>
           <input
             id="game-title"
-            className="text-black rounded w-full mt-4 px-4 py-2 text-xl shadow-2xl"
+            className="text-black rounded w-full mt-4 px-4 py-2 text-xl shadow-2xl bg-white"
             placeholder="Cyberpunk 2077"
             inputMode="search"
             name="game"

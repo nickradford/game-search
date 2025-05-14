@@ -169,8 +169,8 @@ function GamePage() {
               }}
             >
               <input
-                type="text"
-                className="w-full flex-1 my-4 sm:mr-4 px-6 py-2 text-xl rounded text-black"
+                type="search"
+                className="w-full flex-1 my-4 sm:mr-4 px-6 py-2 text-xl rounded text-black bg-white"
                 placeholder={`Search about ${gameData.name}`}
                 value={searchValue}
                 inputMode="search"

@@ -1,6 +1,15 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
 
 /* Custom CSS */
+
+@theme {
+  --font-asap: "Asap", "sans-serif";
+
+  --tw-prose-headings: #fff;
+}
+
 
 #react-confirm-alert .react-confirm-alert-overlay {
   background: rgba(255, 255, 255, 0.2);

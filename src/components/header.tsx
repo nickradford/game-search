@@ -46,7 +46,7 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
           {favorites!.length ? (
             <Dropdown className="mr-5">
               <Dropdown.Label>Favorites</Dropdown.Label>
-              <Dropdown.Menu>
+              <Dropdown.Menu className="">
                 {favorites.map((game) => (
                   <Dropdown.MenuItem>
                     <Link to={`/games/${game.slug}`} className="flex items-center">
@@ -55,7 +55,7 @@ export const Header = ({ onClick, pinnedGame, unpinGame, favorites = [] }: Heade
                         className="box-border shrink-0"
                         style={{ width: '80px', height: '45px' }}
                       />
-                      <span className="md:whitespace-no-wrap ml-4">{game.name}</span>
+                      <span className="md:whitespace-nowrap ml-4">{game.name}</span>
                     </Link>
                   </Dropdown.MenuItem>
                 ))}
