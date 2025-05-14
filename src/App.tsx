@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import SearchPage from './pages/search';
 import GamePage from './pages/game';
+import { ContactPage } from './pages/contact';
 import { PrivacyPage } from './pages/privacy';
 import { SettingsPage } from './pages/settings';
 import { unpinGame } from './redux/slices/games';
@@ -13,8 +14,7 @@ import ImageTransition from './components/image-transition';
 import { Header } from './components/header';
 import { RAWGGame } from './interfaces/game';
 import { CombinedStateStructure } from './redux/store';
-import { ContactPage } from './pages/contact';
-import { Outlet, Routes, Route, Link } from 'react-router';
+import { Outlet, Routes, Route, Link, Navigate, useLocation } from 'react-router';
 
 interface StateProps {
   backgroundGame: RAWGGame | null;
@@ -65,18 +65,16 @@ function App() {
         />
 
         <Routes>
-          <Route index element={<SearchPage />} />
+          <Route index element={pinnedGame ? <Navigate to={`/games/${pinnedGame.slug}`} /> : <SearchPage />} />
           <Route path="/search/:name?" element={<SearchPage />} />
           <Route path="/games/:slug" element={<GamePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
+
         <Outlet />
 
-        {/* <Route path="/games/:slug" element={<GamePage />} />
-          <Route path="/search/:name?" element={<SearchPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/contact" element={<ContactPage />} /> */}
-        {/* <Route path="/" element={pinnedGame ? <Redirect to={`/games/${pinnedGame.slug}`} /> : <SearchPage />} /> */}
 
         <footer className="flex justify-between">
           <aside>
@@ -88,6 +86,7 @@ function App() {
                 : {backgroundGame ? backgroundGame.name : null}
               </Link>
             ) : null}
+            {/* <button className='px-4' onClick={() => dispatch(setRandomBackgroundGame())}>→</button> */}
           </aside>
           <main>
             Game data provided by{' '}

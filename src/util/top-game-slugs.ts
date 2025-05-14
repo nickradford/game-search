@@ -4,10 +4,12 @@ export const topGameSlugs = `
 animal-crossing-2019
 assassins-creed-valhalla
 call-of-duty-modern-warfare
+clair-obscur-expedition-33
 control
 cyberpunk-2077
 destiny-2
 dota-2
+final-fantasy-14
 football-manager-2020
 fortnite
 forza-horizon-4
@@ -25,6 +27,7 @@ rust
 starcraft-2
 the-last-of-us-part-2
 the-legend-of-zelda-breath-of-the-wild
+the-legend-of-zelda-breath-of-the-wild-sequel
 valorant
 world-of-warcraft
 `
